@@ -518,142 +518,6 @@
     margin-top: 5px;
   }
 
-  /* Expandable Astrologer Ledger & Full Jathakam Drawer */
-  details.ledger {
-    background: var(--surface);
-    backdrop-filter: blur(12px);
-    border-radius: var(--radius-md);
-    border: 1px solid var(--border);
-    padding: 15px 20px;
-    box-shadow: var(--shadow-pill);
-  }
-
-  details.ledger summary {
-    font-weight: 600;
-    cursor: pointer;
-    color: var(--accent-deep);
-    font-size: 0.92rem;
-    list-style: none;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-
-  details.ledger summary::-webkit-details-marker { display: none; }
-  details.ledger summary::after { content: "▾"; font-size: 1rem; color: var(--muted); }
-  details.ledger[open] summary::after { transform: rotate(180deg); }
-
-  .ledger-tabs {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    margin-top: 14px;
-    padding-top: 14px;
-    border-top: 1px solid var(--border);
-  }
-
-  .ledger-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 10px;
-    margin-top: 14px;
-    font-size: 0.84rem;
-  }
-
-  .ledger-item {
-    background: var(--surface-solid);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-sm);
-    padding: 10px 12px;
-  }
-
-  .ledger-item strong {
-    display: block;
-    color: var(--accent);
-    margin-bottom: 3px;
-    font-size: 0.8rem;
-  }
-
-  /* South Indian 12-Box Chart */
-  .charts-wrap {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
-    gap: 16px;
-    margin-top: 14px;
-  }
-
-  .si-chart {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    grid-template-rows: repeat(4, minmax(64px, auto));
-    border: 1.5px solid var(--accent);
-    border-radius: 10px;
-    overflow: hidden;
-    background: var(--surface-solid);
-    font-size: 0.74rem;
-  }
-
-  .si-cell {
-    border: 0.5px solid rgba(39, 93, 140, 0.22);
-    padding: 5px 6px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    min-height: 64px;
-  }
-
-  .si-cell.lagna-cell { background: #eef6fc; }
-
-  .si-sign {
-    font-size: 0.66rem;
-    color: var(--muted);
-    display: flex;
-    justify-content: space-between;
-  }
-
-  .si-bodies {
-    font-weight: 700;
-    color: var(--ink);
-    line-height: 1.35;
-    margin-top: 3px;
-  }
-
-  .si-center {
-    grid-column: 2 / 4;
-    grid-row: 2 / 4;
-    border: 0.5px solid rgba(39, 93, 140, 0.22);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    padding: 8px;
-    background: #f8fbfd;
-    color: var(--accent-deep);
-  }
-
-  .graha-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 14px;
-    font-size: 0.8rem;
-    background: var(--surface-solid);
-    border-radius: var(--radius-sm);
-    overflow: hidden;
-  }
-
-  .graha-table th, .graha-table td {
-    padding: 7px 10px;
-    border-bottom: 1px solid var(--border);
-    text-align: left;
-  }
-
-  .graha-table th {
-    background: var(--accent-soft);
-    color: var(--accent-deep);
-    font-weight: 700;
-  }
-
   /* Calm Modal Sheet */
   .modal-backdrop {
     display: none;
@@ -776,6 +640,36 @@ window.onerror = function(msg, url, line) {
   }
 };
 
+function safeGet(key, fallback) {
+  try {
+    var raw = localStorage.getItem(key);
+    return raw !== null ? JSON.parse(raw) : fallback;
+  } catch (e) {
+    return fallback;
+  }
+}
+
+function safeSet(key, val) {
+  try {
+    localStorage.setItem(key, JSON.stringify(val));
+  } catch (e) {}
+}
+
+function safeGetRaw(key, fallback) {
+  try {
+    var v = localStorage.getItem(key);
+    return v !== null ? v : fallback;
+  } catch (e) {
+    return fallback;
+  }
+}
+
+function safeSetRaw(key, val) {
+  try {
+    localStorage.setItem(key, val);
+  } catch (e) {}
+}
+
 function escHtml(str) {
   return String(str)
     .replace(/&/g, "&amp;")
@@ -831,9 +725,6 @@ var UI = {
     rahuNote: "പുതിയ കരാറുകളും വലിയ ഇടപാടുകളും ഒഴിവാക്കുക",
     gulikan: "ഗുളികകാലം",
     gulikanNote: "കേരള ജ്യോതിഷപ്രകാരം ശുഭകാര്യങ്ങൾക്ക് ഗണിക്കാവുന്ന സമയം",
-    ledgerTitle: "ജ്യോതിഷ വിശദാംശങ്ങളും പൂർണ്ണ ജാതക ഗ്രിഡും (Rashi & Navamsa)",
-    tabDaily: "ഇന്നത്തെ ഗണിത വിശദാംശങ്ങൾ",
-    tabChart: "ജാതക ഗ്രിഡ് (രാശി & നവാംശം)",
     stGreat: "മികച്ച ദിവസം",
     stGood: "നല്ല ദിവസം",
     stOkay: "സാധാരണ ദിവസം",
@@ -884,9 +775,6 @@ var UI = {
     rahuNote: "Avoid signing contracts or major purchases",
     gulikan: "Gulikakalam (Kerala Tradition)",
     gulikanNote: "Start of Shani Yamam; favorable for steady actions",
-    ledgerTitle: "Astrologer Ledger & Full Jathakam (Rashi & Navamsa)",
-    tabDaily: "Today's Transit & Panchangam",
-    tabChart: "Full Jathakam (D-1 & D-9)",
     stGreat: "Great Day",
     stGood: "Good Day",
     stOkay: "Okay Day",
@@ -900,40 +788,15 @@ var UI = {
   }
 };
 
-var SI_GRID_MAP = [
-  { r: 1, c: 1, sign: 11 }, { r: 1, c: 2, sign: 0 }, { r: 1, c: 3, sign: 1 }, { r: 1, c: 4, sign: 2 },
-  { r: 2, c: 1, sign: 10 },                                                   { r: 2, c: 4, sign: 3 },
-  { r: 3, c: 1, sign: 9 },                                                    { r: 3, c: 4, sign: 4 },
-  { r: 4, c: 1, sign: 8 },  { r: 4, c: 2, sign: 7 }, { r: 4, c: 3, sign: 6 }, { r: 4, c: 4, sign: 5 }
-];
-
-function renderSouthIndianChart(cells, titleMl, titleEn, subNote, lang) {
-  var E = window.KeralaJyotishEngine;
-  var html = '<div class="si-chart">';
-  SI_GRID_MAP.forEach(function(pos) {
-    var cell = cells[pos.sign];
-    var rName = lang === "ml" ? cell.rashi.shortMl : cell.rashi.shortEn;
-    var lagMark = cell.isLagna ? (lang === "ml" ? "<b>ലഗ്നം</b>" : "<b>Asc</b>") : "";
-    var bStr = cell.bodies.map(function(b) {
-      var abbr = lang === "ml" ? E.PLANETS[b.name].abbrMl : E.PLANETS[b.name].abbrEn;
-      return abbr + (b.retrograde && b.name !== "Rahu" && b.name !== "Ketu" ? "(R)" : "");
-    }).join(" ");
-    html += '<div class="si-cell ' + (cell.isLagna ? "lagna-cell" : "") + '" style="grid-row:' + pos.r + ';grid-column:' + pos.c + ';">' +
-      '<div class="si-sign"><span>' + escHtml(rName) + '</span><span>' + lagMark + '</span></div>' +
-      '<div class="si-bodies">' + escHtml(bStr) + '</div>' +
-    '</div>';
-  });
-  html += '<div class="si-center"><strong>' + escHtml(lang === "ml" ? titleMl : titleEn) + '</strong><span style="font-size:0.72rem;color:var(--muted);margin-top:4px;">' + escHtml(subNote) + '</span></div>';
-  html += '</div>';
-  return html;
-}
-
 function renderRemediesSection(remedies, lang, t) {
   if (!remedies || remedies.length === 0) return "";
   var itemsHtml = remedies.map(function(rem) {
+    var activeDaysTag = (rem.activeDays && rem.activeDays.length)
+      ? '<span class="remedy-day" style="margin-left:4px;">' + escHtml(rem.activeDays.join(", ")) + '</span>'
+      : "";
     return '<div class="remedy-item">' +
       '<div class="remedy-deity">' + escHtml(rem.deity) + '</div>' +
-      '<span class="remedy-day">' + escHtml(rem.dayOfWeek) + '</span>' +
+      '<span class="remedy-day">' + escHtml(rem.dayOfWeek) + '</span>' + activeDaysTag +
       '<p class="remedy-offering">' + escHtml(rem.offering) + '</p>' +
       '<p class="remedy-reason">' + escHtml(rem.reason) + '</p>' +
     '</div>';
@@ -948,24 +811,22 @@ function renderRemediesSection(remedies, lang, t) {
 
 var jathakamCache = {};
 var state = {
-  lang: localStorage.getItem("jyotish_lang") || "ml",
-  profiles: JSON.parse(localStorage.getItem("jyotish_profiles") || "null") || [],
-  activeId: localStorage.getItem("jyotish_active") || "",
+  lang: safeGetRaw("jyotish_lang", "ml"),
+  profiles: safeGet("jyotish_profiles", []),
+  activeId: safeGetRaw("jyotish_active", ""),
   dateStr: getTodayIST(),
-  viewMode: "daily",
-  ledgerTab: "daily"
+  viewMode: "daily"
 };
 
 function saveState() {
-  localStorage.setItem("jyotish_lang", state.lang);
-  localStorage.setItem("jyotish_profiles", JSON.stringify(state.profiles));
-  localStorage.setItem("jyotish_active", state.activeId);
+  safeSetRaw("jyotish_lang", state.lang);
+  safeSet("jyotish_profiles", state.profiles);
+  safeSetRaw("jyotish_active", state.activeId);
 }
 
 function setLang(l) { state.lang = l; saveState(); render(); }
 function setViewMode(m) { state.viewMode = m; render(); }
 function selectProfile(id) { state.activeId = id; saveState(); render(); }
-function setLedgerTab(tab) { state.ledgerTab = tab; render(); }
 
 function shiftDate(delta) {
   var p = state.dateStr.split("-");
@@ -1020,7 +881,18 @@ function saveMember() {
   var dob = document.getElementById("inDob").value;
   var tob = document.getElementById("inTob").value || "06:30";
   var district = document.getElementById("inDistrict").value;
-  if (!name || !dob) return;
+  if (!name || !dob) {
+    var errEl = document.getElementById("errBanner");
+    if (errEl) {
+      errEl.style.display = "block";
+      errEl.textContent = state.lang === "ml"
+        ? "പേരും ജനനത്തീയതിയും നിർബന്ധമാണ്."
+        : "Please enter both Name and Date of Birth.";
+    }
+    return;
+  }
+  var errClear = document.getElementById("errBanner");
+  if (errClear) errClear.style.display = "none";
 
   var editId = document.getElementById("editId").value;
   if (editId) {
@@ -1106,11 +978,6 @@ function render() {
 
   document.getElementById("kollamBadge").textContent = dist.kollamLabel;
 
-  var mahaName = E.PLANETS[ev.dasha.maha][lang];
-  var apaName  = E.PLANETS[ev.dasha.apaharam][lang];
-  var pratName = E.PLANETS[ev.dasha.pratyantardasha][lang];
-  var nakLordName = E.PLANETS[ev.nakLord][lang];
-
   var bodyHtml = "";
   if (state.viewMode === "weekly") {
     var wk = E.evaluateWeek(active, state.dateStr, lang, jk);
@@ -1127,13 +994,28 @@ function render() {
       '</div>';
     }).join("");
 
+    var dayMapByPlanet = {};
+    wk.days.forEach(function(d) {
+      (d.remedies || []).forEach(function(r) {
+        if (!dayMapByPlanet[r.planet]) dayMapByPlanet[r.planet] = [];
+        var lbl = d.vara[lang] + " (" + d.dateStr.slice(5) + ")";
+        if (dayMapByPlanet[r.planet].indexOf(lbl) === -1) dayMapByPlanet[r.planet].push(lbl);
+      });
+    });
+    var annotatedWeeklyRemedies = (wk.weeklyRemedies || []).map(function(r) {
+      var copy = {};
+      for (var k in r) copy[k] = r[k];
+      copy.activeDays = dayMapByPlanet[r.planet] || [];
+      return copy;
+    });
+
     bodyHtml =
       '<section class="week-card">' +
         '<h3>' + escHtml(t.weekTitle) + ' (' + escHtml(wk.startDate) + ' → ' + escHtml(wk.endDate) + ')</h3>' +
         '<p class="week-overview">' + escHtml(wk.weeklyOverview) + '</p>' +
         '<div class="week-days">' + daysHtml + '</div>' +
       '</section>' +
-      renderRemediesSection(wk.weeklyRemedies, lang, t);
+      renderRemediesSection(annotatedWeeklyRemedies, lang, t);
   } else {
     var verdictClass = { great: "st-great", good: "st-good", okay: "st-okay", slow: "st-slow" }[dist.verdictKey];
     var verdictLabel = { great: t.stGreat, good: t.stGood, okay: t.stOkay, slow: t.stSlow }[dist.verdictKey];
@@ -1181,57 +1063,7 @@ function render() {
       '</section>';
   }
 
-  var nakEndNote = ev.transitions.nakshatra
-    ? " (" + (lang === "ml" ? "വരെ " : "till ") + ev.transitions.nakshatra.timeStr + " → " + ev.transitions.nakshatra.nextNak[lang] + ")"
-    : "";
-  var tithiEndNote = ev.transitions.tithi
-    ? " (" + (lang === "ml" ? "വരെ " : "till ") + ev.transitions.tithi.timeStr + ")"
-    : "";
-
-  var ledgerContent = "";
-  if (state.ledgerTab === "daily") {
-    ledgerContent =
-      '<div class="ledger-grid">' +
-        '<div class="ledger-item"><strong>' + (lang === "ml" ? "ഇന്നത്തെ നക്ഷത്രവും താരാബലവും" : "Today Star & Tara Balam") + '</strong>' + escHtml(ev.midMoonNak[lang] + nakEndNote) + ' • ' + escHtml(ev.taraMid[lang]) + '</div>' +
-        '<div class="ledger-item"><strong>' + (lang === "ml" ? "ചന്ദ്രരാശിയും അഷ്ടകവർഗ്ഗവും" : "Moon Rashi & Ashtakavarga") + '</strong>' + escHtml(ev.midMoonRashi[lang]) + ' • Sarva ' + ev.ashtakavargaToday.sarva + ' / Moon ' + ev.ashtakavargaToday.moonBhinna + ' Bindus</div>' +
-        '<div class="ledger-item"><strong>' + (lang === "ml" ? "ദശാ-അപഹാര-പ്രത്യന്തരദശ" : "Vimshottari Dasha Stack") + '</strong>' + escHtml(mahaName + " → " + apaName + " → " + pratName) + ' (till ' + escHtml(ev.dasha.pratEnd) + ')</div>' +
-        '<div class="ledger-item"><strong>' + (lang === "ml" ? "നക്ഷത്രനാഥ ശൃംഖല" : "Nakshatra-Lord Chain") + '</strong>' + escHtml(ev.midMoonNak[lang]) + ' → ' + escHtml(nakLordName) + ' (House ' + ev.nakLordHouseFromLagna + ' from Lagna)</div>' +
-        '<div class="ledger-item"><strong>' + (lang === "ml" ? "തിഥിയും നിത്യയോഗവും" : "Tithi & Nithya Yoga") + '</strong>' + escHtml(ev.midTithi[lang] + tithiEndNote) + ' • ' + escHtml(ev.midYoga[lang]) + '</div>' +
-        '<div class="ledger-item"><strong>' + (lang === "ml" ? "അമൃതകാലം & ത്യാജ്യം" : "Amritakalam & Tyajyam") + '</strong>Amrita: ' + escHtml(ev.windows.amritakalam) + ' • Tyajya: ' + escHtml(ev.windows.tyajyam) + '</div>' +
-      '</div>';
-  } else {
-    var bodyRows = Object.keys(jk.grahas).map(function(k) {
-      var g = jk.grahas[k];
-      var gName = E.PLANETS[k][lang] + (g.retrograde && k !== "Rahu" && k !== "Ketu" ? " (R)" : "") + (g.combust ? " *" : "") + (g.vargottama ? " [V]" : "");
-      return '<tr>' +
-        '<td><strong>' + escHtml(gName) + '</strong></td>' +
-        '<td>' + escHtml(g.rashi[lang]) + ' ' + escHtml(g.degStr) + '</td>' +
-        '<td>' + escHtml(g.nakshatra[lang]) + ' (' + g.pada + ')</td>' +
-        '<td>H' + g.house + '</td>' +
-        '<td>' + escHtml(g.navamsaRashi[lang]) + '</td>' +
-      '</tr>';
-    }).join("");
-
-    ledgerContent =
-      '<div class="charts-wrap">' +
-        renderSouthIndianChart(jk.rashiChart, "രാശി ചക്രം (D-1)", "Rashi Chart (D-1)", jk.lagna.rashi[lang] + " " + jk.lagna.degStr, lang) +
-        renderSouthIndianChart(jk.navamsaChart, "നവാംശകം (D-9)", "Navamsa Chart (D-9)", jk.lagna.navamsaRashi[lang], lang) +
-      '</div>' +
-      '<table class="graha-table">' +
-        '<thead><tr><th>Graha</th><th>Rashi & Deg</th><th>Nakshatra</th><th>Bhava</th><th>D-9</th></tr></thead>' +
-        '<tbody>' + bodyRows + '</tbody>' +
-      '</table>';
-  }
-
-  document.getElementById("mainContent").innerHTML = bodyHtml +
-    '<details class="ledger">' +
-      '<summary>' + escHtml(t.ledgerTitle) + '</summary>' +
-      '<div class="ledger-tabs">' +
-        '<button class="btn ' + (state.ledgerTab === "daily" ? "btn-primary" : "") + '" onclick="setLedgerTab('daily')">' + escHtml(t.tabDaily) + '</button>' +
-        '<button class="btn ' + (state.ledgerTab === "chart" ? "btn-primary" : "") + '" onclick="setLedgerTab('chart')">' + escHtml(t.tabChart) + '</button>' +
-      '</div>' +
-      ledgerContent +
-    '</details>';
+  document.getElementById("mainContent").innerHTML = bodyHtml;
 }
 
 document.addEventListener("DOMContentLoaded", render);
