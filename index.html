@@ -1,0 +1,1428 @@
+<!DOCTYPE html>
+<html lang="ml">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>കുടുംബ ദൈനംദിന ജ്യോതിഷ വഴികാട്ടി | Family Daily Jyotish Compass</title>
+<style>
+  :root {
+    --bg: #f6f4ef;
+    --card: #ffffff;
+    --ink: #1e242b;
+    --muted: #5c6672;
+    --accent: #7a3e1d;
+    --accent-soft: #f5ebe3;
+    --border: #e2dcd2;
+    --great-bg: #e7f6ec;
+    --great-fg: #14532d;
+    --good-bg: #ebf3fe;
+    --good-fg: #1e3a8a;
+    --okay-bg: #fef7e6;
+    --okay-fg: #78350f;
+    --slow-bg: #fdecec;
+    --slow-fg: #7f1d1d;
+    --radius: 14px;
+    --shadow: 0 4px 18px rgba(30, 36, 43, 0.06);
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Noto Sans Malayalam", "Segoe UI", Roboto, sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    line-height: 1.55;
+  }
+  .wrap {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 18px 16px 48px;
+  }
+  header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--border);
+  }
+  .brand h1 {
+    margin: 0;
+    font-size: 1.25rem;
+    color: var(--accent);
+    letter-spacing: -0.01em;
+  }
+  .brand p {
+    margin: 2px 0 0;
+    font-size: 0.84rem;
+    color: var(--muted);
+  }
+  .controls-top {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .lang-toggle {
+    display: inline-flex;
+    background: #eae4da;
+    border-radius: 999px;
+    padding: 3px;
+    border: 1px solid var(--border);
+  }
+  .lang-toggle button {
+    border: none;
+    background: transparent;
+    padding: 6px 13px;
+    border-radius: 999px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    color: var(--muted);
+    transition: all 0.15s ease;
+  }
+  .lang-toggle button.active {
+    background: var(--accent);
+    color: #fff;
+  }
+  .date-bar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    margin: 16px 0;
+    background: var(--card);
+    padding: 10px 14px;
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow);
+  }
+  .date-nav {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .btn {
+    border: 1px solid var(--border);
+    background: #fff;
+    color: var(--ink);
+    padding: 6px 12px;
+    border-radius: 9px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  .btn:hover { background: var(--accent-soft); border-color: var(--accent); }
+  .btn-primary {
+    background: var(--accent);
+    color: #fff;
+    border-color: var(--accent);
+  }
+  .btn-primary:hover { opacity: 0.92; background: var(--accent); }
+  input[type="date"], input[type="text"], input[type="time"], input[type="number"], select {
+    padding: 7px 10px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    font-size: 0.9rem;
+    font-family: inherit;
+    background: #fff;
+    color: var(--ink);
+  }
+  .kollam-pill {
+    font-size: 0.83rem;
+    font-weight: 600;
+    color: var(--accent);
+    background: var(--accent-soft);
+    padding: 5px 11px;
+    border-radius: 999px;
+  }
+  .profiles-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 16px;
+  }
+  .profile-pill {
+    border: 1px solid var(--border);
+    background: var(--card);
+    padding: 7px 14px;
+    border-radius: 999px;
+    font-size: 0.88rem;
+    font-weight: 600;
+    cursor: pointer;
+    color: var(--ink);
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .profile-pill.active {
+    background: var(--accent);
+    color: #fff;
+    border-color: var(--accent);
+  }
+  .verdict-card {
+    background: var(--card);
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow);
+    padding: 18px 20px;
+    margin-bottom: 16px;
+  }
+  .verdict-top {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+  }
+  .person-meta h2 {
+    margin: 0;
+    font-size: 1.25rem;
+  }
+  .meta-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 6px;
+  }
+  .tag {
+    font-size: 0.8rem;
+    background: #f1ede6;
+    color: #3e4651;
+    padding: 3px 9px;
+    border-radius: 6px;
+    font-weight: 500;
+  }
+  .status-badge {
+    padding: 8px 16px;
+    border-radius: 999px;
+    font-weight: 700;
+    font-size: 0.98rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .st-great { background: var(--great-bg); color: var(--great-fg); }
+  .st-good  { background: var(--good-bg);  color: var(--good-fg); }
+  .st-okay  { background: var(--okay-bg);  color: var(--okay-fg); }
+  .st-slow  { background: var(--slow-bg);  color: var(--slow-fg); }
+  .verdict-summary {
+    margin: 12px 0 0;
+    font-size: 0.97rem;
+    color: var(--ink);
+  }
+  .grid-3 {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 14px;
+    margin-bottom: 16px;
+  }
+  .domain-card {
+    background: var(--card);
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow);
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .domain-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+  }
+  .domain-head h3 {
+    margin: 0;
+    font-size: 1rem;
+    color: var(--accent);
+  }
+  .d-pill {
+    font-size: 0.76rem;
+    font-weight: 700;
+    padding: 3px 9px;
+    border-radius: 999px;
+  }
+  .domain-card p {
+    margin: 0;
+    font-size: 0.91rem;
+    color: var(--ink);
+  }
+  .windows-card {
+    background: var(--card);
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow);
+    padding: 16px 20px;
+    margin-bottom: 16px;
+  }
+  .windows-card h3 {
+    margin: 0 0 12px;
+    font-size: 1.02rem;
+    color: var(--accent);
+  }
+  .win-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(195px, 1fr));
+    gap: 10px;
+  }
+  .win-box {
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 10px 12px;
+    background: #faf8f5;
+  }
+  .win-box.good-win { border-left: 4px solid #16a34a; }
+  .win-box.bad-win  { border-left: 4px solid #dc2626; }
+  .win-title {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--muted);
+    text-transform: uppercase;
+  }
+  .win-time {
+    font-size: 0.96rem;
+    font-weight: 700;
+    margin: 3px 0;
+  }
+  .win-note {
+    font-size: 0.8rem;
+    color: var(--muted);
+  }
+  details.ledger {
+    background: var(--card);
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    padding: 14px 18px;
+    box-shadow: var(--shadow);
+  }
+  details.ledger summary {
+    font-weight: 700;
+    cursor: pointer;
+    color: var(--accent);
+    font-size: 0.95rem;
+  }
+  .ledger-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 10px;
+    margin-top: 14px;
+    font-size: 0.85rem;
+  }
+  .ledger-item {
+    background: #faf8f5;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 9px 11px;
+  }
+  .ledger-item strong { display: block; color: var(--accent); margin-bottom: 2px; }
+  .modal-backdrop {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 20, 25, 0.48);
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+    z-index: 50;
+  }
+  .modal-backdrop.open { display: flex; }
+  .modal {
+    background: #fff;
+    border-radius: var(--radius);
+    max-width: 460px;
+    width: 100%;
+    padding: 20px;
+    box-shadow: 0 12px 32px rgba(0,0,0,0.18);
+  }
+  .modal h3 { margin: 0 0 14px; color: var(--accent); }
+  .form-row { display: flex; flex-direction: column; gap: 4px; margin-bottom: 11px; }
+  .form-row label { font-size: 0.84rem; font-weight: 600; color: var(--muted); }
+  .form-actions { display: flex; justify-content: flex-end; gap: 8px; margin-top: 14px; }
+  #errBanner {
+    display: none;
+    background: #fee2e2;
+    color: #991b1b;
+    padding: 10px 14px;
+    border-radius: 8px;
+    margin-bottom: 12px;
+    font-size: 0.86rem;
+    font-weight: 600;
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div id="errBanner"></div>
+
+  <header>
+    <div class="brand">
+      <h1 id="appTitle">കുടുംബ ദൈനംദിന ജ്യോതിഷ വഴികാട്ടി</h1>
+      <p id="appSub">കേരള ജ്യോതിഷ ഗണിതവും ദൈനംദിന മാർഗ്ഗനിർദ്ദേശവും</p>
+    </div>
+    <div class="controls-top">
+      <div class="lang-toggle" role="group" aria-label="Language Switch">
+        <button id="btnLangMl" class="active" onclick="setLang('ml')">മലയാളം</button>
+        <button id="btnLangEn" onclick="setLang('en')">English</button>
+      </div>
+    </div>
+  </header>
+
+  <section class="date-bar">
+    <div class="date-nav">
+      <button class="btn" id="btnPrevDay" onclick="shiftDate(-1)">← ഇന്നലെ</button>
+      <input type="date" id="targetDate" onchange="onDateInput()">
+      <button class="btn" id="btnToday" onclick="setToday()">ഇന്ന്</button>
+      <button class="btn" id="btnNextDay" onclick="shiftDate(1)">നാളെ →</button>
+    </div>
+    <div class="kollam-pill" id="kollamBadge">കൊല്ലവർഷം • ആഴ്ച</div>
+  </section>
+
+  <section class="profiles-row" id="profilesRow"></section>
+
+  <main id="mainContent"></main>
+</div>
+
+<!-- Add / Edit Member Modal -->
+<div class="modal-backdrop" id="memberModal">
+  <div class="modal">
+    <h3 id="modalTitle">അംഗത്തെ ചേർക്കുക</h3>
+    <input type="hidden" id="editId">
+    <div class="form-row">
+      <label id="lblName">പേര് (Name)</label>
+      <input type="text" id="inName" placeholder="ഉദാ: അച്ഛൻ / Rahul">
+    </div>
+    <div class="form-row">
+      <label id="lblDob">ജനനത്തീയതി (Date of Birth)</label>
+      <input type="date" id="inDob">
+    </div>
+    <div class="form-row">
+      <label id="lblTob">ജനനസമയം (Time of Birth - 24h)</label>
+      <input type="time" id="inTob" value="06:30">
+    </div>
+    <div class="form-row">
+      <label id="lblPlace">ജനനസ്ഥലം (Kerala District)</label>
+      <select id="inDistrict"></select>
+    </div>
+    <div class="form-actions">
+      <button class="btn" id="btnCancelModal" onclick="closeModal()">റദ്ദാക്കുക</button>
+      <button class="btn btn-primary" id="btnSaveModal" onclick="saveMember()">സേവ് ചെയ്യുക</button>
+    </div>
+  </div>
+</div>
+
+<script>
+window.onerror = function(msg, url, line) {
+  var b = document.getElementById("errBanner");
+  if (b) {
+    b.style.display = "block";
+    b.textContent = "Engine Notice: " + msg + " (Line " + line + ")";
+  }
+};
+
+function escHtml(str) {
+  return String(str)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
+
+function getTodayIST() {
+  var now = new Date();
+  var istMs = now.getTime() + (5.5 * 3600000);
+  return new Date(istMs).toISOString().slice(0, 10);
+}
+
+/* ============================================================================
+   1. KERALA DISTRICTS & BILINGUAL DICTIONARIES
+   ============================================================================ */
+var DISTRICTS = [
+  { id: "tvm", ml: "തിരുവനന്തപുരം", en: "Thiruvananthapuram", lat: 8.5241, lon: 76.9366 },
+  { id: "klm", ml: "കൊല്ലം", en: "Kollam", lat: 8.8932, lon: 76.6141 },
+  { id: "pta", ml: "പത്തനംതിട്ട", en: "Pathanamthitta", lat: 9.2648, lon: 76.7870 },
+  { id: "alp", ml: "ആലപ്പുഴ", en: "Alappuzha", lat: 9.4981, lon: 76.3388 },
+  { id: "ktm", ml: "കോട്ടയം", en: "Kottayam", lat: 9.5916, lon: 76.5222 },
+  { id: "idk", ml: "ഇടുക്കി", en: "Idukki", lat: 9.9189, lon: 77.1025 },
+  { id: "ekm", ml: "എറണാകുളം (കൊച്ചി)", en: "Ernakulam (Kochi)", lat: 9.9312, lon: 76.2673 },
+  { id: "tsr", ml: "തൃശ്ശൂർ", en: "Thrissur", lat: 10.5276, lon: 76.2144 },
+  { id: "pkd", ml: "പാലക്കാട്", en: "Palakkad", lat: 10.7867, lon: 76.6548 },
+  { id: "mlp", ml: "മലപ്പുറം", en: "Malappuram", lat: 11.0510, lon: 76.0711 },
+  { id: "kkd", ml: "കോഴിക്കോട്", en: "Kozhikode", lat: 11.2588, lon: 75.7804 },
+  { id: "wyd", ml: "വയനാട്", en: "Wayanad", lat: 11.6854, lon: 76.1320 },
+  { id: "knr", ml: "കണ്ണൂർ", en: "Kannur", lat: 11.8745, lon: 75.3704 },
+  { id: "ksd", ml: "കാസർഗോഡ്", en: "Kasaragod", lat: 12.4996, lon: 74.9869 }
+];
+
+var NAKSHATRAS = [
+  { ml: "അശ്വതി", en: "Ashwini", lord: "Ketu" },
+  { ml: "ഭരണി", en: "Bharani", lord: "Venus" },
+  { ml: "കാർത്തിക", en: "Krittika", lord: "Sun" },
+  { ml: "രോഹിണി", en: "Rohini", lord: "Moon" },
+  { ml: "മകയിരം", en: "Mrigashira", lord: "Mars" },
+  { ml: "തിരുവാതിര", en: "Ardra", lord: "Rahu" },
+  { ml: "പുണർതം", en: "Punarvasu", lord: "Jupiter" },
+  { ml: "പൂയം", en: "Pushya", lord: "Saturn" },
+  { ml: "ആയില്യം", en: "Ashlesha", lord: "Mercury" },
+  { ml: "മകം", en: "Magha", lord: "Ketu" },
+  { ml: "പൂരം", en: "Purva Phalguni", lord: "Venus" },
+  { ml: "ഉത്രം", en: "Uttara Phalguni", lord: "Sun" },
+  { ml: "അത്തം", en: "Hasta", lord: "Moon" },
+  { ml: "ചിത്തിര", en: "Chitra", lord: "Mars" },
+  { ml: "ചോതി", en: "Swati", lord: "Rahu" },
+  { ml: "വിശാഖം", en: "Vishakha", lord: "Jupiter" },
+  { ml: "അനിഴം", en: "Anuradha", lord: "Saturn" },
+  { ml: "തൃക്കേട്ട", en: "Jyeshtha", lord: "Mercury" },
+  { ml: "മൂലം", en: "Mula", lord: "Ketu" },
+  { ml: "പൂരാടം", en: "Purva Ashadha", lord: "Venus" },
+  { ml: "ഉത്രാടം", en: "Uttara Ashadha", lord: "Sun" },
+  { ml: "തിരുവോണം", en: "Shravana", lord: "Moon" },
+  { ml: "അവിട്ടം", en: "Dhanishta", lord: "Mars" },
+  { ml: "ചതയം", en: "Shatabhisha", lord: "Rahu" },
+  { ml: "പൂരുരുട്ടാതി", en: "Purva Bhadrapada", lord: "Jupiter" },
+  { ml: "ഉത്രട്ടാതി", en: "Uttara Bhadrapada", lord: "Saturn" },
+  { ml: "രേവതി", en: "Revati", lord: "Mercury" }
+];
+
+var RASHIS = [
+  { ml: "മേടം", en: "Mesha (Aries)", lord: "Mars", benefics: ["Sun", "Mars", "Jupiter"], malefics: ["Mercury", "Venus", "Saturn"] },
+  { ml: "ഇടവം", en: "Idavam (Taurus)", lord: "Venus", benefics: ["Saturn", "Mercury", "Venus"], malefics: ["Jupiter", "Venus", "Moon"] },
+  { id: 2, ml: "മിഥുനം", en: "Mithunam (Gemini)", lord: "Mercury", benefics: ["Venus", "Mercury", "Saturn"], malefics: ["Mars", "Jupiter", "Sun"] },
+  { ml: "കർക്കടകം", en: "Karkidakam (Cancer)", lord: "Moon", benefics: ["Mars", "Jupiter", "Moon"], malefics: ["Mercury", "Venus", "Saturn"] },
+  { ml: "ചിങ്ങം", en: "Chingam (Leo)", lord: "Sun", benefics: ["Mars", "Jupiter", "Sun"], malefics: ["Mercury", "Venus", "Saturn"] },
+  { ml: "കന്നി", en: "Kanni (Virgo)", lord: "Mercury", benefics: ["Venus", "Mercury"], malefics: ["Mars", "Moon", "Jupiter"] },
+  { ml: "തുലാം", en: "Thulam (Libra)", lord: "Venus", benefics: ["Saturn", "Mercury", "Venus"], malefics: ["Jupiter", "Sun", "Mars"] },
+  { ml: "വൃശ്ചികം", en: "Vrishchikam (Scorpio)", lord: "Mars", benefics: ["Jupiter", "Moon", "Sun"], malefics: ["Mercury", "Venus", "Saturn"] },
+  { ml: "ധനു", en: "Dhanu (Sagittarius)", lord: "Jupiter", benefics: ["Mars", "Sun", "Jupiter"], malefics: ["Venus", "Saturn", "Mercury"] },
+  { ml: "മകരം", en: "Makaram (Capricorn)", lord: "Saturn", benefics: ["Venus", "Mercury", "Saturn"], malefics: ["Mars", "Jupiter", "Moon"] },
+  { ml: "കുംഭം", en: "Kumbham (Aquarius)", lord: "Saturn", benefics: ["Venus", "Saturn", "Mars"], malefics: ["Jupiter", "Moon", "Sun"] },
+  { ml: "മീനം", en: "Meenam (Pisces)", lord: "Jupiter", benefics: ["Moon", "Mars", "Jupiter"], malefics: ["Sun", "Venus", "Saturn", "Mercury"] }
+];
+
+var KOLLAM_MONTHS = [
+  { ml: "മേടം", en: "Medam" }, { ml: "ഇടവം", en: "Idavam" }, { ml: "മിഥുനം", en: "Mithunam" },
+  { ml: "കർക്കടകം", en: "Karkidakam" }, { ml: "ചിങ്ങം", en: "Chingam" }, { ml: "കന്നി", en: "Kanni" },
+  { ml: "തുലാം", en: "Thulam" }, { ml: "വൃശ്ചികം", en: "Vrishchikam" }, { ml: "ധനു", en: "Dhanu" },
+  { ml: "മകരം", en: "Makaram" }, { ml: "കുംഭം", en: "Kumbham" }, { ml: "മീനം", en: "Meenam" }
+];
+
+var VARAS = [
+  { ml: "ഞായർ", en: "Sunday", lord: "Sun" },
+  { ml: "തിങ്കൾ", en: "Monday", lord: "Moon" },
+  { ml: "ചൊവ്വ", en: "Tuesday", lord: "Mars" },
+  { ml: "ബുധൻ", en: "Wednesday", lord: "Mercury" },
+  { ml: "വ്യാഴം", en: "Thursday", lord: "Jupiter" },
+  { ml: "വെള്ളി", en: "Friday", lord: "Venus" },
+  { ml: "ശനി", en: "Saturday", lord: "Saturn" }
+];
+
+var PLANET_NAMES = {
+  Sun:     { ml: "സൂര്യൻ", en: "Sun" },
+  Moon:    { ml: "ചന്ദ്രൻ", en: "Moon" },
+  Mars:    { ml: "ചൊവ്വ", en: "Mars" },
+  Mercury: { ml: "ബുധൻ", en: "Mercury" },
+  Jupiter: { ml: "വ്യാഴം", en: "Jupiter" },
+  Venus:   { ml: "ശുക്രൻ", en: "Venus" },
+  Saturn:  { ml: "ശനി", en: "Saturn" },
+  Rahu:    { ml: "രാഹു", en: "Rahu" },
+  Ketu:    { ml: "കേതു", en: "Ketu" }
+};
+
+var TARA_NAMES = [
+  { idx: 1, ml: "ജന്മ താര (ശ്രദ്ധിക്കുക)", en: "Janma Tara (Alert)", val: 0 },
+  { idx: 2, ml: "സമ്പത്ത് താര (അനുകൂലം)", en: "Sampath Tara (Favorable)", val: 1 },
+  { idx: 3, ml: "വിപത്ത് താര (തടസ്സം)", en: "Vipath Tara (Friction)", val: -1 },
+  { idx: 4, ml: "ക്ഷേമ താര (സുഖകരം)", en: "Kshema Tara (Supportive)", val: 1 },
+  { idx: 5, ml: "പ്രത്യക് താര (ജാഗ്രത)", en: "Pratyak Tara (Obstacle)", val: -1 },
+  { idx: 6, ml: "സാധക താര (വിജയം)", en: "Sadhaka Tara (Achievement)", val: 1 },
+  { idx: 7, ml: "വധ താര (ഒഴിവാക്കുക)", en: "Vadha Tara (High Caution)", val: -1 },
+  { idx: 8, ml: "മിത്ര താര (സഹായം)", en: "Mitra Tara (Friendly)", val: 1 },
+  { idx: 9, ml: "അതിമിത്ര താര (അത്യുത്തമം)", en: "Atimitra Tara (Excellent)", val: 1 }
+];
+
+var TITHI_NAMES = [
+  "പ്രഥമ / Prathama", "ദ്വിതീയ / Dwitiya", "തൃതീയ / Tritiya", "ചതുർത്ഥി / Chaturthi", "പഞ്ചമി / Panchami",
+  "ഷഷ്ഠി / Shashthi", "സപ്തമി / Saptami", "അഷ്ടമി / Ashtami", "നവമി / Navami", "ദശമി / Dashami",
+  "ഏകാദശി / Ekadashi", "ദ്വാദശി / Dwadashi", "ത്രയോദശി / Trayodashi", "ചതുർദ്ദശി / Chaturdashi", "പൗർണ്ണമി / Pournami",
+  "പ്രഥമ / Prathama", "ദ്വിതീയ / Dwitiya", "തൃതീയ / Tritiya", "ചതുർത്ഥി / Chaturthi", "പഞ്ചമി / Panchami",
+  "ഷഷ്ഠി / Shashthi", "സപ്തമി / Saptami", "അഷ്ടമി / Ashtami", "നവമി / Navami", "ദശമി / Dashami",
+  "ഏകാദശി / Ekadashi", "ദ്വാദശി / Dwadashi", "ത്രയോദശി / Trayodashi", "ചതുർദ്ദശി / Chaturdashi", "അമാവാസി / Amavasi"
+];
+
+var YOGA_NAMES = [
+  "വിഷ്കംഭം / Vishkambha", "പ്രീതി / Priti", "ആയുഷ്മാൻ / Ayushman", "സൗഭാഗ്യം / Saubhagya", "ശോഭനം / Shobhana",
+  "അതിഗണ്ഡം / Atiganda", "സുകർമ്മം / Sukarma", "ധൃതി / Dhriti", "ശൂലം / Shula", "ഗണ്ഡം / Ganda",
+  "വൃദ്ധി / Vriddhi", "ധ്രുവം / Dhruva", "വ്യാഘാതം / Vyaghata", "ഹർഷണം / Harshana", "വജ്രം / Vajra",
+  "സിദ്ധി / Siddhi", "വ്യതീപാതം / Vyatipata", "വരീയാൻ / Variyan", "പരിഘം / Parigha", "ശിവം / Shiva",
+  "സിദ്ധം / Siddha", "സാദ്ധ്യം / Sadhya", "ശുഭം / Shubha", "ശുക്ലം / Shukla", "ബ്രഹ്മം / Brahma",
+  "ഇന്ദ്രം / Indra", "വൈധൃതി / Vaidhriti"
+];
+
+var UI = {
+  ml: {
+    title: "കുടുംബ ദൈനംദിന ജ്യോതിഷ വഴികാട്ടി",
+    sub: "കേരള ജ്യോതിഷ ഗണിതവും ദൈനംദിന മാർഗ്ഗനിർദ്ദേശവും",
+    prev: "← ഇന്നലെ",
+    today: "ഇന്ന്",
+    next: "നാളെ →",
+    addMember: "+ അംഗത്തെ ചേർക്കുക",
+    editMember: "തിരുത്തുക",
+    delMember: "നീക്കം ചെയ്യുക",
+    modalAdd: "പുതിയ കുടുംബാംഗത്തെ ചേർക്കുക",
+    modalEdit: "വിവരങ്ങൾ തിരുത്തുക",
+    lblName: "പേര്",
+    lblDob: "ജനനത്തീയതി",
+    lblTob: "ജനനസമയം (24 മണിക്കൂർ)",
+    lblPlace: "ജനനസ്ഥലം (ജില്ല)",
+    cancel: "റദ്ദാക്കുക",
+    save: "സേവ് ചെയ്യുക",
+    ageUnit: "വയസ്സ്",
+    birthStar: "ജന്മനക്ഷത്രം",
+    birthRashi: "കൂറ്",
+    lagna: "ലഗ്നം",
+    dasha: "ദശാ-അപഹാരം",
+    workTitle: "ജോലിയും ശ്രദ്ധയും",
+    moodTitle: "ബന്ധങ്ങളും മാനസികാവസ്ഥയും",
+    moneyTitle: "പണവും തീരുമാനങ്ങളും",
+    winTitle: "ഇന്നത്തെ പ്രധാന സമയങ്ങൾ (സൂര്യോദയം മുതൽ)",
+    abhijit: "അഭിജിത്ത് മുഹൂർത്തം (ശുഭം)",
+    abhijitNote: "പ്രധാന തീരുമാനങ്ങൾക്കും തുടക്കങ്ങൾക്കും ഉത്തമം",
+    powerHora: "വ്യക്തിഗത ശുഭ ഹോര",
+    powerHoraNote: "നിങ്ങളുടെ ലഗ്ന/ദശാനാഥന്റെ അനുകൂല സമയം",
+    rahu: "രാഹുകാലം (ശ്രദ്ധിക്കുക)",
+    rahuNote: "പുതിയ കരാറുകളും വലിയ ഇടപാടുകളും ഒഴിവാക്കുക",
+    gulikan: "ഗുളികകാലം",
+    gulikanNote: "കേരള ജ്യോതിഷപ്രകാരം ശുഭകാര്യങ്ങൾക്ക് ഗണിക്കാവുന്ന സമയം",
+    ledgerTitle: "ജ്യോതിഷ വിശദാംശങ്ങളും 3-തല സ്ഥിരീകരണ കണക്കും",
+    stGreat: "മികച്ച ദിവസം",
+    stGood: "നല്ല ദിവസം",
+    stOkay: "സാധാരണ ദിവസം",
+    stSlow: "ശ്രദ്ധയോടെ നീങ്ങേണ്ട ദിവസം",
+    dStrong: "മികച്ചത്",
+    dSteady: "സാധാരണം",
+    dCareful: "ശ്രദ്ധിക്കുക"
+  },
+  en: {
+    title: "Family Daily Jyotish Compass",
+    sub: "Precision Kerala Jyothisham & Personalized Daily Guidance",
+    prev: "← Yesterday",
+    today: "Today",
+    next: "Tomorrow →",
+    addMember: "+ Add Member",
+    editMember: "Edit",
+    delMember: "Remove",
+    modalAdd: "Add Family Member",
+    modalEdit: "Edit Member Details",
+    lblName: "Name",
+    lblDob: "Date of Birth",
+    lblTob: "Time of Birth (24-hour)",
+    lblPlace: "Birth Place (Kerala District)",
+    cancel: "Cancel",
+    save: "Save Profile",
+    ageUnit: "yrs",
+    birthStar: "Birth Star",
+    birthRashi: "Moon Rashi",
+    lagna: "Lagna",
+    dasha: "Dasha-Apaharam",
+    workTitle: "Work & Focus",
+    moodTitle: "People & Mood",
+    moneyTitle: "Money & Decisions",
+    winTitle: "Key Daytime Windows (Sunrise-to-Sunrise Vara)",
+    abhijit: "Abhijit Muhurtham (Auspicious)",
+    abhijitNote: "Best midday window for key calls & new starts",
+    powerHora: "Personal Power Hora",
+    powerHoraNote: "Ruled by your Lagna or active Apaharam lord",
+    rahu: "Rahukalam (Pause & Review)",
+    rahuNote: "Avoid signing contracts or major purchases",
+    gulikan: "Gulikakalam (Kerala Tradition)",
+    gulikanNote: "Start of Shani Yamam; favorable for steady actions",
+    ledgerTitle: "Jyotish Details & 3-Layer Confirmation Ledger",
+    stGreat: "Great Day",
+    stGood: "Good Day",
+    stOkay: "Okay Day",
+    stSlow: "Take It Slow",
+    dStrong: "Strong",
+    dSteady: "Steady",
+    dCareful: "Careful"
+  }
+};
+
+/* ============================================================================
+   2. ASTRONOMICAL EPHEMERIS & KERALA PANCHANGAM ENGINE (CORRECTED)
+   ============================================================================ */
+var DEG = Math.PI / 180;
+var RAD = 180 / Math.PI;
+
+function norm360(x) {
+  x = x % 360;
+  return x < 0 ? x + 360 : x;
+}
+
+function toJulianDay(year, month, day, hourUT) {
+  if (month <= 2) { year -= 1; month += 12; }
+  var A = Math.floor(year / 100);
+  var B = 2 - A + Math.floor(A / 4);
+  return Math.floor(365.25 * (year + 4716)) + Math.floor(30.6001 * (month + 1)) + day + hourUT / 24.0 + B - 1524.5;
+}
+
+function getLahiriAyanamsa(jd) {
+  var t = (jd - 2451545.0) / 36525.0;
+  return 23.853056 + 1.396971 * t + 0.000308 * t * t;
+}
+
+function getSiderealPlanets(jd) {
+  var d = jd - 2451545.0;
+  var T = d / 36525.0;
+  var ayan = getLahiriAyanamsa(jd);
+
+  var gSun = norm360(357.52911 + 35999.05029 * T - 0.0001537 * T * T);
+  var lSun0 = norm360(280.46646 + 36000.76983 * T + 0.0003032 * T * T);
+  var eqSun = (1.914602 - 0.004817 * T) * Math.sin(gSun * DEG) + 0.019993 * Math.sin(2 * gSun * DEG);
+  var sunTrop = norm360(lSun0 + eqSun);
+
+  var Lp = norm360(218.3164477 + 481267.88123421 * T - 0.0015786 * T * T);
+  var D  = norm360(297.8501921 + 445267.1114034 * T - 0.0018819 * T * T);
+  var M  = norm360(357.5291092 + 35999.0502909 * T - 0.0001536 * T * T);
+  var Mp = norm360(134.9633964 + 477198.8675055 * T + 0.0087414 * T * T);
+  var F  = norm360(93.2720950 + 483202.0175233 * T - 0.0036539 * T * T);
+
+  var moonLon = Lp
+    + 6.288774 * Math.sin(Mp * DEG)
+    + 1.274027 * Math.sin((2 * D - Mp) * DEG)
+    + 0.658314 * Math.sin(2 * D * DEG)
+    + 0.213618 * Math.sin(2 * Mp * DEG)
+    - 0.185116 * Math.sin(M * DEG)
+    - 0.114332 * Math.sin(2 * F * DEG)
+    + 0.058793 * Math.sin((2 * D - 2 * Mp) * DEG)
+    + 0.057066 * Math.sin((2 * D - M - Mp) * DEG)
+    + 0.053322 * Math.sin((2 * D + Mp) * DEG)
+    + 0.045758 * Math.sin((2 * D - M) * DEG)
+    - 0.040923 * Math.sin((M - Mp) * DEG)
+    - 0.034720 * Math.sin(D * DEG)
+    - 0.030383 * Math.sin((M + Mp) * DEG);
+  var moonTrop = norm360(moonLon);
+
+  var rahuTrop = norm360(125.04452 - 1934.136261 * T + 0.0020708 * T * T);
+  var ketuTrop = norm360(rahuTrop + 180);
+
+  function helioToGeo(a, e, I, L0, n, wBar, Om) {
+    var L = norm360(L0 + n * d);
+    var M_p = norm360(L - wBar);
+    var E = M_p + e * RAD * Math.sin(M_p * DEG) * (1.0 + e * Math.cos(M_p * DEG));
+    var xv = a * (Math.cos(E * DEG) - e);
+    var yv = a * Math.sqrt(1.0 - e * e) * Math.sin(E * DEG);
+    var v = Math.atan2(yv, xv) * RAD;
+    var r = Math.sqrt(xv * xv + yv * yv);
+    var u = (v + wBar - Om) * DEG;
+    var xh = r * (Math.cos(Om * DEG) * Math.cos(u) - Math.sin(Om * DEG) * Math.sin(u) * Math.cos(I * DEG));
+    var yh = r * (Math.sin(Om * DEG) * Math.cos(u) + Math.cos(Om * DEG) * Math.sin(u) * Math.cos(I * DEG));
+
+    var rE = 1.00014 - 0.01671 * Math.cos(gSun * DEG) - 0.00014 * Math.cos(2 * gSun * DEG);
+    var lE = norm360(sunTrop + 180);
+    var xe = rE * Math.cos(lE * DEG);
+    var ye = rE * Math.sin(lE * DEG);
+    return norm360(Math.atan2(yh - ye, xh - xe) * RAD);
+  }
+
+  var mercTrop = helioToGeo(0.387098, 0.205630, 7.0047, 252.25032, 4.0923344368, 77.45779, 48.33076);
+  var venTrop  = helioToGeo(0.723332, 0.006773, 3.3946, 181.97973, 1.6021302244, 131.60246, 76.67984);
+  var marsTrop = helioToGeo(1.523688, 0.093405, 1.8497, 355.43300, 0.5240207766, 336.06023, 49.55740);
+  var jupTrop  = helioToGeo(5.202561, 0.048498, 1.3030, 34.35151, 0.08309121, 14.33120, 100.46440);
+  var satTrop  = helioToGeo(9.554747, 0.055546, 2.4886, 50.07744, 0.03345965, 93.05723, 113.66340);
+
+  return {
+    ayanamsa: ayan,
+    Sun:     norm360(sunTrop - ayan),
+    Moon:    norm360(moonTrop - ayan),
+    Mars:    norm360(marsTrop - ayan),
+    Mercury: norm360(mercTrop - ayan),
+    Jupiter: norm360(jupTrop - ayan),
+    Venus:   norm360(venTrop - ayan),
+    Saturn:  norm360(satTrop - ayan),
+    Rahu:    norm360(rahuTrop - ayan),
+    Ketu:    norm360(ketuTrop - ayan)
+  };
+}
+
+// FIXED Bug B: Exact 4-quadrant Sidereal Ascendant (Lagna) without erroneous +180 flip
+function getSiderealLagna(jd, lat, lon) {
+  var T = (jd - 2451545.0) / 36525.0;
+  var gmst = norm360(280.46061837 + 360.98564736629 * (jd - 2451545.0) + 0.000387933 * T * T);
+  var lst = norm360(gmst + lon) * DEG;
+  var eps = (23.439291 - 0.0130042 * T) * DEG;
+  var phi = lat * DEG;
+  var y = Math.cos(lst);
+  var x = -(Math.sin(lst) * Math.cos(eps) + Math.tan(phi) * Math.sin(eps));
+  var ascTrop = norm360(Math.atan2(y, x) * RAD);
+  return norm360(ascTrop - getLahiriAyanamsa(jd));
+}
+
+function getSunTimesIST(year, month, day, lat, lon) {
+  var jd0 = toJulianDay(year, month, day, 0);
+  var n = jd0 - 2451545.0 + 0.0008;
+  var jStar = n - lon / 360.0;
+  var M = norm360(357.5291 + 0.98560028 * jStar);
+  var C = 1.9148 * Math.sin(M * DEG) + 0.0200 * Math.sin(2 * M * DEG);
+  var lam = norm360(M + C + 180 + 102.9372);
+  var jTransit = 2451545.0 + jStar + 0.0053 * Math.sin(M * DEG) - 0.0069 * Math.sin(2 * lam * DEG);
+  var sinDec = Math.sin(lam * DEG) * Math.sin(23.44 * DEG);
+  var cosDec = Math.cos(Math.asin(sinDec));
+  var cosOmega = (Math.sin(-0.83 * DEG) - Math.sin(lat * DEG) * sinDec) / (Math.cos(lat * DEG) * cosDec);
+  cosOmega = Math.max(-1, Math.min(1, cosOmega));
+  var omega = Math.acos(cosOmega) * RAD;
+  var jRise = jTransit - omega / 360.0;
+  var jSet  = jTransit + omega / 360.0;
+
+  function jdToIST(j) {
+    var frac = (j + 0.5) - Math.floor(j + 0.5);
+    return (frac * 24.0 + 5.5) % 24.0;
+  }
+  return { sunrise: jdToIST(jRise), sunset: jdToIST(jSet) };
+}
+
+function fmtTime(decHours) {
+  var h = Math.floor(decHours) % 24;
+  var m = Math.round((decHours - Math.floor(decHours)) * 60);
+  if (m === 60) { h = (h + 1) % 24; m = 0; }
+  var ampm = h >= 12 ? "PM" : "AM";
+  var h12 = h % 12; if (h12 === 0) h12 = 12;
+  return (h12 < 10 ? "0" : "") + h12 + ":" + (m < 10 ? "0" : "") + m + " " + ampm;
+}
+
+var DASHA_ORDER = [
+  { lord: "Ketu", yrs: 7 }, { lord: "Venus", yrs: 20 }, { lord: "Sun", yrs: 6 },
+  { lord: "Moon", yrs: 10 }, { lord: "Mars", yrs: 7 }, { lord: "Rahu", yrs: 18 },
+  { lord: "Jupiter", yrs: 16 }, { lord: "Saturn", yrs: 19 }, { lord: "Mercury", yrs: 17 }
+];
+
+function getVimshottari(birthMoonLon, birthJd, targetJd) {
+  var nakSpan = 360.0 / 27.0;
+  var nakIdx = Math.floor(birthMoonLon / nakSpan);
+  var remFrac = 1.0 - ((birthMoonLon % nakSpan) / nakSpan);
+  var startSeq = nakIdx % 9;
+
+  var elapsedDays = Math.max(0, targetJd - birthJd);
+  var elapsedYears = elapsedDays / 365.2425;
+
+  var firstYears = DASHA_ORDER[startSeq].yrs * remFrac;
+  var mahaIdx = startSeq;
+  var yearIntoMaha = 0;
+
+  if (elapsedYears < firstYears) {
+    yearIntoMaha = (DASHA_ORDER[startSeq].yrs - firstYears) + elapsedYears;
+  } else {
+    var rem = elapsedYears - firstYears;
+    mahaIdx = (startSeq + 1) % 9;
+    while (rem >= DASHA_ORDER[mahaIdx].yrs) {
+      rem -= DASHA_ORDER[mahaIdx].yrs;
+      mahaIdx = (mahaIdx + 1) % 9;
+    }
+    yearIntoMaha = rem;
+  }
+
+  var mahaLord = DASHA_ORDER[mahaIdx].lord;
+  var mahaTotal = DASHA_ORDER[mahaIdx].yrs;
+
+  var apaIdx = mahaIdx;
+  var acc = 0;
+  for (var i = 0; i < 9; i++) {
+    var dur = (mahaTotal * DASHA_ORDER[apaIdx].yrs) / 120.0;
+    if (yearIntoMaha < acc + dur) break;
+    acc += dur;
+    apaIdx = (apaIdx + 1) % 9;
+  }
+  return { maha: mahaLord, apaharam: DASHA_ORDER[apaIdx].lord };
+}
+
+// FIXED Bug A: Exact Kollavarsham Solar Date using 3/5ths Daytime (Aparahna) Sankramam Rule
+function getKollavarsham(year, month, day, sunTimes) {
+  // Kerala rule: Sankramam cutoff is 3/5ths of daytime (Madhyahna/Aparahna boundary)
+  var cutoffIST = sunTimes.sunrise + 0.60 * (sunTimes.sunset - sunTimes.sunrise);
+  var jdCutoffUT = toJulianDay(year, month, day, cutoffIST - 5.5);
+  var sunLonToday = getSiderealPlanets(jdCutoffUT).Sun;
+  var mIdx = Math.floor(sunLonToday / 30.0);
+
+  // Step backward day-by-day until Sun Rashi changes to count exact elapsed days since Sankramam
+  var solarDay = 1;
+  for (var back = 1; back <= 33; back++) {
+    var prevSun = getSiderealPlanets(jdCutoffUT - back).Sun;
+    if (Math.floor(prevSun / 30.0) === mIdx) {
+      solarDay++;
+    } else {
+      break;
+    }
+  }
+
+  // Kollam Era (ME) increments on Chingam 1 (mIdx === 4, mid-August)
+  var kYear = year - 825;
+  if (month > 8 || (month === 8 && mIdx >= 4)) {
+    kYear = year - 824;
+  }
+  return { year: kYear, monthIdx: mIdx, day: solarDay };
+}
+
+/* ============================================================================
+   3. KERALA JYOTHISHAM 3-LAYER CONFIRMATION & DAILY GUIDANCE ENGINE
+   ============================================================================ */
+var MOON_GOOD_HOUSES = { 1: 5, 3: 12, 6: 9, 7: 2, 10: 4, 11: 8 };
+var MOON_BAD_HOUSES  = [4, 8, 12];
+
+function houseOffset(fromSign, toSign) {
+  return ((toSign - fromSign + 12) % 12) + 1;
+}
+
+function evaluateDay(profile, dateStr, lang) {
+  var parts = dateStr.split("-");
+  var tY = parseInt(parts[0], 10), tM = parseInt(parts[1], 10), tD = parseInt(parts[2], 10);
+
+  var bParts = profile.dob.split("-");
+  var bY = parseInt(bParts[0], 10), bM = parseInt(bParts[1], 10), bD = parseInt(bParts[2], 10);
+  var tParts = (profile.tob || "06:30").split(":");
+  var bH = parseInt(tParts[0], 10) + parseInt(tParts[1], 10) / 60.0;
+
+  var dist = DISTRICTS.find(function(x) { return x.id === profile.district; }) || DISTRICTS[0];
+  var birthJd = toJulianDay(bY, bM, bD, bH - 5.5);
+  var birthPlanets = getSiderealPlanets(birthJd);
+  var birthLagnaLon = getSiderealLagna(birthJd, dist.lat, dist.lon);
+
+  var birthNakIdx = Math.floor(birthPlanets.Moon / (360 / 27));
+  var birthPada = Math.floor((birthPlanets.Moon % (360 / 27)) / (360 / 108)) + 1;
+  var birthRashiIdx = Math.floor(birthPlanets.Moon / 30);
+  var birthLagnaIdx = Math.floor(birthLagnaLon / 30);
+
+  var sunTimes = getSunTimesIST(tY, tM, tD, dist.lat, dist.lon);
+  var noonJd = toJulianDay(tY, tM, tD, 12.0 - 5.5);
+  var ageYears = Math.max(1, Math.floor((noonJd - birthJd) / 365.2425));
+  var dasha = getVimshottari(birthPlanets.Moon, birthJd, noonJd);
+
+  var civilDate = new Date(Date.UTC(tY, tM - 1, tD));
+  var varaIdx = civilDate.getUTCDay();
+  var kollam = getKollavarsham(tY, tM, tD, sunTimes);
+
+  // Waking-Day 3-Point Sampling (8 AM, 2 PM, 8 PM IST)
+  var sampleHours = [8.0, 14.0, 20.0];
+  var sampleWeights = [0.35, 0.40, 0.25];
+  var taraSignal = 0;
+  var gocharSignal = 0;
+  var panchangSignal = 0;
+  var vedhaBlocked = false;
+  var isChandrashtama = false;
+
+  sampleHours.forEach(function(hIST, idx) {
+    var w = sampleWeights[idx];
+    var sJd = toJulianDay(tY, tM, tD, hIST - 5.5);
+    var pl = getSiderealPlanets(sJd);
+    var tNak = Math.floor(pl.Moon / (360 / 27));
+    var tRashi = Math.floor(pl.Moon / 30);
+
+    var starDist = ((tNak - birthNakIdx + 27) % 27) + 1;
+    var taraNum = ((starDist - 1) % 9) + 1;
+    taraSignal += TARA_NAMES[taraNum - 1].val * w;
+
+    var mHouse = houseOffset(birthRashiIdx, tRashi);
+    if (mHouse === 8) isChandrashtama = true;
+    if (MOON_GOOD_HOUSES[mHouse]) {
+      var vedhaHouse = MOON_GOOD_HOUSES[mHouse];
+      var allSigns = [pl.Sun, pl.Mars, pl.Mercury, pl.Jupiter, pl.Venus, pl.Saturn].map(function(lon) {
+        return houseOffset(birthRashiIdx, Math.floor(lon / 30));
+      });
+      if (allSigns.indexOf(vedhaHouse) !== -1) {
+        vedhaBlocked = true;
+      } else {
+        gocharSignal += 1.0 * w;
+      }
+    } else if (MOON_BAD_HOUSES.indexOf(mHouse) !== -1) {
+      gocharSignal -= (mHouse === 8 ? 1.5 : 0.9) * w;
+    }
+
+    var diff = norm360(pl.Moon - pl.Sun);
+    var tithiNum = Math.floor(diff / 12.0) + 1;
+    var karanaNum = Math.floor(diff / 6.0) + 1;
+    var yogaNum = Math.floor(norm360(pl.Moon + pl.Sun) / (360 / 27)) + 1;
+
+    var isVishti = (karanaNum === 8 || karanaNum === 15 || karanaNum === 22 || karanaNum === 29 ||
+                    karanaNum === 36 || karanaNum === 43 || karanaNum === 50 || karanaNum === 57);
+    var isRiktha = (tithiNum % 15 === 4 || tithiNum % 15 === 9 || tithiNum % 15 === 14 || tithiNum === 30);
+    var badYoga = (yogaNum === 6 || yogaNum === 9 || yogaNum === 10 || yogaNum === 13 || yogaNum === 17 || yogaNum === 27);
+
+    if (isVishti || isRiktha || badYoga) panchangSignal -= 0.8 * w;
+    else if (tithiNum % 15 === 5 || tithiNum % 15 === 11 || tithiNum === 15 || yogaNum === 16 || yogaNum === 21) panchangSignal += 0.7 * w;
+  });
+
+  var midPl = getSiderealPlanets(noonJd);
+  var midMoonNakIdx = Math.floor(midPl.Moon / (360 / 27));
+  var midMoonRashiIdx = Math.floor(midPl.Moon / 30);
+  var midTithiIdx = Math.floor(norm360(midPl.Moon - midPl.Sun) / 12.0);
+  var midYogaIdx = Math.floor(norm360(midPl.Moon + midPl.Sun) / (360 / 27));
+
+  var starDistMid = ((midMoonNakIdx - birthNakIdx + 27) % 27) + 1;
+  var taraMid = TARA_NAMES[((starDistMid - 1) % 9)];
+
+  // Moon Nakshatra-Lord Chain + Lagna Functional Benefic/Malefic Check
+  var nakLord = NAKSHATRAS[midMoonNakIdx].lord;
+  var nakLordSign = Math.floor(midPl[nakLord] / 30);
+  var nakLordHouseFromLagna = houseOffset(birthLagnaIdx, nakLordSign);
+  var lagnaMeta = RASHIS[birthLagnaIdx];
+  var isFuncBenefic = lagnaMeta.benefics.indexOf(nakLord) !== -1;
+  var isFuncMalefic = lagnaMeta.malefics.indexOf(nakLord) !== -1;
+
+  var chainSignal = 0;
+  if ([1, 2, 4, 5, 9, 10, 11].indexOf(nakLordHouseFromLagna) !== -1) {
+    chainSignal = isFuncBenefic ? 1.0 : 0.6;
+  } else if ([6, 8, 12].indexOf(nakLordHouseFromLagna) !== -1) {
+    chainSignal = isFuncMalefic ? -1.0 : -0.6;
+  }
+
+  var mercHouse = houseOffset(birthLagnaIdx, Math.floor(midPl.Mercury / 30));
+  var venHouse  = houseOffset(birthLagnaIdx, Math.floor(midPl.Venus / 30));
+  var marsHouse = houseOffset(birthLagnaIdx, Math.floor(midPl.Mars / 30));
+  var moonLagnaHouse = houseOffset(birthLagnaIdx, midMoonRashiIdx);
+
+  var layer1 = taraSignal + gocharSignal;
+  var layer2 = chainSignal + (nakLord === dasha.apaharam ? 0.7 : 0);
+  var layer3 = panchangSignal;
+
+  var posVotes = (layer1 > 0.35 ? 1 : 0) + (layer2 > 0.35 ? 1 : 0) + (layer3 > 0.25 ? 1 : 0);
+  var negVotes = (layer1 < -0.35 ? 1 : 0) + (layer2 < -0.35 ? 1 : 0) + (layer3 < -0.25 ? 1 : 0);
+
+  var verdictKey = "okay";
+  if (isChandrashtama && negVotes >= 1) verdictKey = "slow";
+  else if (negVotes >= 2) verdictKey = "slow";
+  else if (posVotes >= 2 && !isChandrashtama) verdictKey = "great";
+  else if (posVotes === 1 && negVotes === 0 && !isChandrashtama) verdictKey = "good";
+
+  var dayDur = sunTimes.sunset - sunTimes.sunrise;
+  var oct = dayDur / 8.0;
+  var rahuOct = [7, 1, 6, 4, 5, 3, 2][varaIdx];
+  var gulikaOct = [6, 5, 4, 3, 2, 1, 0][varaIdx];
+
+  var rahuStart = sunTimes.sunrise + rahuOct * oct;
+  var gulikaStart = sunTimes.sunrise + gulikaOct * oct;
+  var solarNoon = (sunTimes.sunrise + sunTimes.sunset) / 2.0;
+  var abhijitStart = solarNoon - (dayDur / 30.0);
+  var abhijitEnd   = solarNoon + (dayDur / 30.0);
+
+  var horaSeq = ["Sun", "Venus", "Mercury", "Moon", "Saturn", "Jupiter", "Mars"];
+  var targetHoraLord = dasha.apaharam;
+  if (horaSeq.indexOf(targetHoraLord) === -1) targetHoraLord = lagnaMeta.lord;
+  var startHoraIdx = horaSeq.indexOf(VARAS[varaIdx].lord);
+  var horaDur = dayDur / 12.0;
+  var powerHoraIdx = 0;
+  for (var h = 0; h < 12; h++) {
+    if (horaSeq[(startHoraIdx + h) % 7] === targetHoraLord) { powerHoraIdx = h; break; }
+  }
+  var pHoraStart = sunTimes.sunrise + powerHoraIdx * horaDur;
+
+  return {
+    ageYears: ageYears,
+    birthNak: NAKSHATRAS[birthNakIdx],
+    birthPada: birthPada,
+    birthRashi: RASHIS[birthRashiIdx],
+    birthLagna: lagnaMeta,
+    dasha: dasha,
+    vara: VARAS[varaIdx],
+    kollam: kollam,
+    sunTimes: sunTimes,
+    verdictKey: verdictKey,
+    taraMid: taraMid,
+    midMoonNak: NAKSHATRAS[midMoonNakIdx],
+    midMoonRashi: RASHIS[midMoonRashiIdx],
+    midTithi: TITHI_NAMES[midTithiIdx],
+    midYoga: YOGA_NAMES[midYogaIdx],
+    nakLord: nakLord,
+    nakLordHouseFromLagna: nakLordHouseFromLagna,
+    vedhaBlocked: vedhaBlocked,
+    isChandrashtama: isChandrashtama,
+    mercHouse: mercHouse,
+    venHouse: venHouse,
+    marsHouse: marsHouse,
+    moonLagnaHouse: moonLagnaHouse,
+    posVotes: posVotes,
+    negVotes: negVotes,
+    windows: {
+      abhijit: fmtTime(abhijitStart) + " – " + fmtTime(abhijitEnd),
+      powerHora: fmtTime(pHoraStart) + " – " + fmtTime(pHoraStart + horaDur) + " (" + PLANET_NAMES[targetHoraLord][lang] + ")",
+      rahu: fmtTime(rahuStart) + " – " + fmtTime(rahuStart + oct),
+      gulikan: fmtTime(gulikaStart) + " – " + fmtTime(gulikaStart + oct)
+    }
+  };
+}
+
+/* ============================================================================
+   4. AGE-CALIBRATED BILINGUAL GUIDANCE BUILDERS
+   ============================================================================ */
+function getLifeStage(age) {
+  if (age < 23) return "student";
+  if (age <= 45) return "career";
+  if (age <= 60) return "midlife";
+  return "senior";
+}
+
+function buildDomainCards(ev, lang) {
+  var stage = getLifeStage(ev.ageYears);
+  var isMl = (lang === "ml");
+
+  var workGood = ([1, 3, 6, 10, 11].indexOf(ev.mercHouse) !== -1 || ev.taraMid.val > 0) && !ev.isChandrashtama;
+  var workCaution = ev.isChandrashtama || ev.taraMid.val < 0;
+  var workStatus = workCaution ? "careful" : (workGood ? "strong" : "steady");
+  var workText = "";
+
+  if (stage === "student") {
+    workText = isMl
+      ? (workCaution ? "പഠനത്തിലും പരീക്ഷാ തയ്യാറെടുപ്പിലും അമിത തിടുക്കം ഒഴിവാക്കുക. ചെറിയ ഭാഗങ്ങളായി തിരിച്ച് പഠിക്കുക."
+        : (workGood ? "പുതിയ പാഠഭാഗങ്ങൾ പഠിക്കാനും പ്രോജക്റ്റുകൾ പൂർത്തിയാക്കാനും അധ്യാപകരുമായി സംസാരിക്കാനും മികച്ച സമയം."
+        : "ദൈനംദിന പഠനക്രമം കൃത്യമായി പാലിക്കുക. പഴയ നോട്ടുകൾ ആവർത്തിച്ചു വായിക്കുന്നത് ഗുണം ചെയ്യും."))
+      : (workCaution ? "Avoid cramming or rushing assignments today; break study goals into short, steady blocks."
+        : (workGood ? "Sharp focus for tackling tough subjects, presentations, or mentor discussions."
+        : "Stick to your regular study routine and revise core notes rather than starting too many new topics."));
+  } else if (stage === "career") {
+    workText = isMl
+      ? (workCaution ? "ഓഫീസ് ആശയവിനിമയങ്ങളിൽ വ്യക്തത പാലിക്കുക. പ്രധാന ഇമെയിലുകളും റിപ്പോർട്ടുകളും രണ്ടുതവണ പരിശോധിക്കുക."
+        : (workGood ? "പ്രധാന മീറ്റിംഗുകൾക്കും പുതിയ ആശയങ്ങൾ അവതരിപ്പിക്കാനും കഠിനമായ ജോലികൾ തീർക്കാനും അനുകൂല ദിവസം."
+        : "പതിവ് ജോലികൾ കൃത്യസമയത്ത് പൂർത്തിയാക്കാൻ ശ്രദ്ധിക്കുക; അനാവശ്യ തർക്കങ്ങളിൽ നിന്ന് മാറിനിൽക്കുക."))
+      : (workCaution ? "Keep workplace messages clear and documented; double-check deliverables before sending."
+        : (workGood ? "Strong momentum for high-leverage meetings, pitching ideas, and clearing key deadlines."
+        : "Focus on steady execution of pending tasks and keep team coordination straightforward."));
+  } else if (stage === "midlife") {
+    workText = isMl
+      ? (workCaution ? "ഒരേസമയം പല ഉത്തരവാദിത്തങ്ങൾ ഏറ്റെടുക്കാതെ മുൻഗണന അനുസരിച്ച് കാര്യങ്ങൾ ചെയ്യുക; വിശ്രമത്തിന് സമയം കണ്ടെത്തുക."
+        : (workGood ? "ദീർഘകാല പദ്ധതികൾ ആസൂത്രണം ചെയ്യാനും സഹപ്രവർത്തകർക്ക് മാർഗ്ഗനിർദ്ദേശം നൽകാനും മികച്ച ദിവസം."
+        : "പതിവ് ഉത്തരവാദിത്തങ്ങൾ ശാന്തമായി കൈകാര്യം ചെയ്യുക; പ്രധാന തീരുമാനങ്ങൾ ഉച്ചയ്ക്ക് ശേഷം എടുക്കുക."))
+      : (workCaution ? "Pace your schedule and avoid overloading your day; delegate routine follow-ups where possible."
+        : (workGood ? "Ideal day for leadership decisions, strategic planning, and guiding younger team members."
+        : "Maintain a steady pace on ongoing commitments and save major reviews for the afternoon."));
+  } else {
+    workText = isMl
+      ? (workCaution ? "ശരീരത്തിനും മനസ്സിനും അമിത ആയാസം നൽകുന്ന ജോലികൾ ഒഴിവാക്കി ശാന്തമായ ദിനചര്യ പിന്തുടരുക."
+        : (workGood ? "വായന, എഴുത്ത്, സാമൂഹിക കാര്യങ്ങൾ എന്നിവയിൽ സജീവമായി ഇടപെടാൻ ഉന്മേഷമുള്ള ദിവസം."
+        : "പതിവ് വ്യായാമവും പ്രാർത്ഥനയും ദിനചര്യകളും കൃത്യസമയത്ത് ചെയ്യുന്നത് മനസ്സിന് സന്തോഷം നൽകും."))
+      : (workCaution ? "Keep your schedule unhurried today and prioritize physical comfort and light routines."
+        : (workGood ? "Great energy for personal projects, reading, community activities, or organizing home matters."
+        : "A calm, predictable routine works best today—enjoy unhurried hobbies and light tasks."));
+  }
+
+  var moodGood = ([1, 4, 5, 7, 11].indexOf(ev.venHouse) !== -1 || [1, 4, 5, 9, 11].indexOf(ev.moonLagnaHouse) !== -1) && !ev.isChandrashtama;
+  var moodCaution = ev.isChandrashtama || [6, 8, 12].indexOf(ev.moonLagnaHouse) !== -1 || [1, 7, 8].indexOf(ev.marsHouse) !== -1;
+  var moodStatus = moodCaution ? "careful" : (moodGood ? "strong" : "steady");
+  var moodText = "";
+
+  if (stage === "student") {
+    moodText = isMl
+      ? (moodCaution ? "ചെറിയ കാര്യങ്ങളിൽ പെട്ടെന്ന് ദേഷ്യമോ സങ്കടമോ തോന്നാം. സുഹൃത്തുക്കളോടും വീട്ടുകാരോടും ക്ഷമയോടെ സംസാരിക്കുക."
+        : (moodGood ? "സുഹൃത്തുക്കളോടൊപ്പം സമയം ചെലവഴിക്കാനും വീട്ടുകാരുമായി മനസ്സ് തുറന്ന് സംസാരിക്കാനും സന്തോഷകരമായ ദിവസം."
+        : "ശാന്തമായ മാനസികാവസ്ഥ നിലനിർത്തുക; സോഷ്യൽ മീഡിയയിൽ അമിത സമയം കളയാതിരിക്കുക."))
+      : (moodCaution ? "Emotions may run slightly sensitive today—pause before reacting to friends or family."
+        : (moodGood ? "Warm, upbeat vibe for catching up with friends and open conversations at home."
+        : "Keep conversations light and balanced; take a short break outdoors to refresh your mood."));
+  } else if (stage === "career") {
+    moodText = isMl
+      ? (moodCaution ? "ജോലിത്തിരക്കുകൾ മൂലമുള്ള സമ്മർദ്ദം കുടുംബാംഗങ്ങളോട് പ്രകടിപ്പിക്കാതിരിക്കാൻ ശ്രദ്ധിക്കുക. വൈകുന്നേരം വിശ്രമിക്കുക."
+        : (moodGood ? "പങ്കാളിയുമായും കുടുംബാംഗങ്ങളുമായും സന്തോഷകരമായ നിമിഷങ്ങൾ പങ്കിടാനും തെറ്റിദ്ധാരണകൾ തീർക്കാനും നല്ല ദിവസം."
+        : "മറ്റുള്ളവരുടെ അഭിപ്രായങ്ങൾ ശ്രദ്ധയോടെ കേൾക്കുക; തിടുക്കത്തിലുള്ള മറുപടികൾ ഒഴിവാക്കുക."))
+      : (moodCaution ? "Avoid carrying work stress into personal conversations; give yourself quiet time in the evening."
+        : (moodGood ? "Supportive day for quality time with your partner, family harmony, and resolving misunderstandings."
+        : "Listen patiently in discussions and avoid sending reactive messages when busy."));
+  } else if (stage === "midlife") {
+    moodText = isMl
+      ? (moodCaution ? "കുടുംബകാര്യങ്ങളിൽ അഭിപ്രായവ്യത്യാസങ്ങൾ ഉണ്ടായാൽ ശാന്തമായി കേൾക്കുക; തിടുക്കത്തിൽ പ്രതികരിക്കരുത്."
+        : (moodGood ? "ബന്ധുക്കളുമായും മക്കളുമായും ഊഷ്മളമായ ആശയവിനിമയത്തിന് അനുകൂലമായ ദിവസം."
+        : "വീട്ടിലെ സമാധാന അന്തരീക്ഷം നിലനിർത്താൻ സാധാരണ പോലെ ഇടപെടുക."))
+      : (moodCaution ? "Stay patient if family opinions differ today; a calm, listening approach prevents friction."
+        : (moodGood ? "Harmonious day for connecting with relatives, children, and close family friends."
+        : "Steady emotional balance—keep household discussions relaxed and constructive."));
+  } else {
+    moodText = isMl
+      ? (moodCaution ? "മനസ്സിന് അസ്വസ്ഥത തോന്നുന്ന വാർത്തകളോ ചർച്ചകളോ ഒഴിവാക്കുക. നല്ല ഉറക്കവും വിശ്രമവും പ്രധാനമാണ്."
+        : (moodGood ? "കുടുംബാംഗങ്ങളുടെ സ്നേഹവും കരുതലും അനുഭവപ്പെടുന്ന സന്തോഷകരമായ ദിവസം."
+        : "പഴയ സുഹൃത്തുക്കളെയോ ബന്ധുക്കളെയോ ഫോണിൽ വിളിക്കുന്നത് മനസ്സിന് സന്തോഷം നൽകും."))
+      : (moodCaution ? "Step back from stressful news or tense debates today; prioritize restful sleep and peace of mind."
+        : (moodGood ? "Warm, uplifting day surrounded by family affection and pleasant conversations."
+        : "A quiet phone call with an old friend or relative will bring genuine cheer today."));
+  }
+
+  var moneyGood = ([2, 5, 9, 11].indexOf(ev.venHouse) !== -1 || [2, 11].indexOf(ev.mercHouse) !== -1) && !ev.isChandrashtama && ev.negVotes === 0;
+  var moneyCaution = ev.isChandrashtama || ev.vedhaBlocked || ev.negVotes >= 1 || [8, 12].indexOf(ev.moonLagnaHouse) !== -1;
+  var moneyStatus = moneyCaution ? "careful" : (moneyGood ? "strong" : "steady");
+  var moneyText = "";
+
+  if (stage === "student") {
+    moneyText = isMl
+      ? (moneyCaution ? "ഓൺലൈൻ ഷോപ്പിംഗും അനാവശ്യ ചെലവുകളും ഇന്ന് ഒഴിവാക്കുക. പോക്കറ്റ് മണി കരുതലോടെ ഉപയോഗിക്കുക."
+        : (moneyGood ? "പഠനാവശ്യങ്ങൾക്കുള്ള പുസ്തകങ്ങളോ ഉപകരണങ്ങളോ വാങ്ങാനും ബജറ്റ് ആസൂത്രണം ചെയ്യാനും നല്ല ദിവസം."
+        : "അത്യാവശ്യ ചെലവുകൾ മാത്രം നടത്തുക; വലിയ വാങ്ങലുകൾ മറ്റൊരു ദിവസത്തേക്ക് മാറ്റുക."))
+      : (moneyCaution ? "Skip impulse online purchases today and stick strictly to your weekly budget."
+        : (moneyGood ? "Good day to buy study essentials or plan your monthly savings allowance."
+        : "Keep spending simple and routine; avoid lending or borrowing money today."));
+  } else if (stage === "career") {
+    moneyText = isMl
+      ? (moneyCaution ? "വലിയ സാമ്പത്തിക നിക്ഷേപങ്ങളും പുതിയ കരാറുകളിൽ ഒപ്പിടുന്നതും ഇന്ന് മാറ്റിവെക്കുന്നതാണ് ഉചിതം."
+        : (moneyGood ? "സാമ്പത്തിക ചർച്ചകൾക്കും നിക്ഷേപ ആസൂത്രണത്തിനും ശമ്പള/ബിസിനസ് സംബന്ധമായ തീരുമാനങ്ങൾക്കും അനുകൂല സമയം."
+        : "പതിവ് ബില്ലുകളും ചെലവുകളും കൃത്യമായി പരിശോധിക്കുക; രേഖകൾ വായിച്ച ശേഷം മാത്രം ഒപ്പിടുക."))
+      : (moneyCaution ? "Postpone big-ticket purchases, speculative investments, or signing binding contracts today."
+        : (moneyGood ? "Favorable window for financial planning, negotiations, and reviewing career or investment moves."
+        : "Stick to planned expenses and read all terms carefully before committing funds."));
+  } else if (stage === "midlife") {
+    moneyText = isMl
+      ? (moneyCaution ? "കുടുംബ ബജറ്റിന് പുറത്തുള്ള വലിയ ചെലവുകളും വായ്പാ ഇടപാടുകളും ഇന്ന് ഒഴിവാക്കുക."
+        : (moodGood || moneyGood ? "സമ്പാദ്യ പദ്ധതികൾ പുനഃപരിശോധിക്കാനും കുടുംബത്തിന്റെ ഭാവി ആവശ്യങ്ങൾ ആസൂത്രണം ചെയ്യാനും നല്ല ദിവസം."
+        : "പതിവ് വീട്ടുചെലവുകൾ കൃത്യമായി നിയന്ത്രിക്കുക; രേഖകൾ സുരക്ഷിതമായി സൂക്ഷിക്കുക."))
+      : (moneyCaution ? "Avoid unbudgeted major expenses or co-signing financial guarantees today."
+        : (moneyGood ? "Productive day for reviewing family savings, property paperwork, or long-term budgets."
+        : "Keep household finances steady and defer non-urgent commitments to a stronger day."));
+  } else {
+    moneyText = isMl
+      ? (moneyCaution ? "അപരിചിതമായ ഫോൺ കോളുകളോ സാമ്പത്തിക വാഗ്ദാനങ്ങളോ വിശ്വസിക്കരുത്. രേഖകളിൽ ഒപ്പിടുമ്പോൾ കുടുംബാംഗങ്ങളോട് ആലോചിക്കുക."
+        : (moneyGood ? "ആരോഗ്യ സംരക്ഷണത്തിനും ക്ഷേമപ്രവർത്തനങ്ങൾക്കും സമ്പാദ്യം ക്രമീകരിക്കാനും അനുകൂല ദിവസം."
+        : "പതിവ് ആവശ്യങ്ങൾക്കുള്ള ചെലവുകൾ മാത്രം നടത്തുക; സാമ്പത്തിക കാര്യങ്ങളിൽ ജാഗ്രത പാലിക്കുക."))
+      : (moneyCaution ? "Be extra cautious of unsolicited calls or offers; consult family before signing financial papers."
+        : (moneyGood ? "Good day for organizing savings, wellness spending, or charitable contributions."
+        : "Keep financial matters conservative and stick to familiar, routine transactions."));
+  }
+
+  return [
+    { title: UI[lang].workTitle,  status: workStatus,  text: workText },
+    { title: UI[lang].moodTitle,  status: moodStatus,  text: moodText },
+    { title: UI[lang].moneyTitle, status: moneyStatus, text: moneyText }
+  ];
+}
+
+/* ============================================================================
+   5. STATE MANAGEMENT & SAFE RENDERING
+   ============================================================================ */
+var DEFAULT_PROFILES = [
+  { id: "p1", name: "Member 1 (Sample)", dob: "1998-06-15", tob: "07:30", district: "tvm" },
+  { id: "p2", name: "Parent (Sample)", dob: "1968-11-20", tob: "06:15", district: "ekm" }
+];
+
+var state = {
+  lang: localStorage.getItem("jyotish_lang") || "ml",
+  profiles: JSON.parse(localStorage.getItem("jyotish_profiles") || "null") || DEFAULT_PROFILES,
+  activeId: localStorage.getItem("jyotish_active") || "p1",
+  dateStr: getTodayIST()
+};
+
+function saveState() {
+  localStorage.setItem("jyotish_lang", state.lang);
+  localStorage.setItem("jyotish_profiles", JSON.stringify(state.profiles));
+  localStorage.setItem("jyotish_active", state.activeId);
+}
+
+function setLang(l) {
+  state.lang = l;
+  saveState();
+  render();
+}
+
+function selectProfile(id) {
+  state.activeId = id;
+  saveState();
+  render();
+}
+
+function shiftDate(delta) {
+  var p = state.dateStr.split("-");
+  var dt = new Date(Date.UTC(parseInt(p[0], 10), parseInt(p[1], 10) - 1, parseInt(p[2], 10)));
+  dt.setUTCDate(dt.getUTCDate() + delta);
+  state.dateStr = dt.toISOString().slice(0, 10);
+  render();
+}
+
+function setToday() {
+  state.dateStr = getTodayIST();
+  render();
+}
+
+function onDateInput() {
+  var val = document.getElementById("targetDate").value;
+  if (val) { state.dateStr = val; render(); }
+}
+
+function openModal(editProfile) {
+  var t = UI[state.lang];
+  var sel = document.getElementById("inDistrict");
+  sel.innerHTML = DISTRICTS.map(function(d) {
+    return '<option value="' + escHtml(d.id) + '">' + escHtml(state.lang === "ml" ? d.ml : d.en) + '</option>';
+  }).join("");
+
+  if (editProfile) {
+    document.getElementById("modalTitle").textContent = t.modalEdit;
+    document.getElementById("editId").value = editProfile.id;
+    document.getElementById("inName").value = editProfile.name;
+    document.getElementById("inDob").value = editProfile.dob;
+    document.getElementById("inTob").value = editProfile.tob;
+    sel.value = editProfile.district;
+  } else {
+    document.getElementById("modalTitle").textContent = t.modalAdd;
+    document.getElementById("editId").value = "";
+    document.getElementById("inName").value = "";
+    document.getElementById("inDob").value = "1995-01-15";
+    document.getElementById("inTob").value = "07:00";
+    sel.value = "tvm";
+  }
+  document.getElementById("lblName").textContent = t.lblName;
+  document.getElementById("lblDob").textContent = t.lblDob;
+  document.getElementById("lblTob").textContent = t.lblTob;
+  document.getElementById("lblPlace").textContent = t.lblPlace;
+  document.getElementById("btnCancelModal").textContent = t.cancel;
+  document.getElementById("btnSaveModal").textContent = t.save;
+  document.getElementById("memberModal").classList.add("open");
+}
+
+function closeModal() {
+  document.getElementById("memberModal").classList.remove("open");
+}
+
+function saveMember() {
+  var name = document.getElementById("inName").value.trim();
+  var dob = document.getElementById("inDob").value;
+  var tob = document.getElementById("inTob").value || "06:30";
+  var district = document.getElementById("inDistrict").value;
+  if (!name || !dob) return;
+
+  var editId = document.getElementById("editId").value;
+  if (editId) {
+    state.profiles = state.profiles.map(function(p) {
+      return p.id === editId ? { id: editId, name: name, dob: dob, tob: tob, district: district } : p;
+    });
+  } else {
+    var newId = "p_" + Date.now();
+    state.profiles.push({ id: newId, name: name, dob: dob, tob: tob, district: district });
+    state.activeId = newId;
+  }
+  saveState();
+  closeModal();
+  render();
+}
+
+function deleteActiveProfile() {
+  if (state.profiles.length <= 1) return;
+  state.profiles = state.profiles.filter(function(p) { return p.id !== state.activeId; });
+  state.activeId = state.profiles[0].id;
+  saveState();
+  render();
+}
+
+function render() {
+  var lang = state.lang;
+  var t = UI[lang];
+
+  document.getElementById("btnLangMl").className = lang === "ml" ? "active" : "";
+  document.getElementById("btnLangEn").className = lang === "en" ? "active" : "";
+  document.getElementById("appTitle").textContent = t.title;
+  document.getElementById("appSub").textContent = t.sub;
+  document.getElementById("btnPrevDay").textContent = t.prev;
+  document.getElementById("btnToday").textContent = t.today;
+  document.getElementById("btnNextDay").textContent = t.next;
+  document.getElementById("targetDate").value = state.dateStr;
+
+  var active = state.profiles.find(function(p) { return p.id === state.activeId; }) || state.profiles[0];
+  state.activeId = active.id;
+
+  var pHtml = state.profiles.map(function(p) {
+    return '<button class="profile-pill ' + (p.id === active.id ? "active" : "") + '" data-id="' + escHtml(p.id) + '" onclick="selectProfile(this.dataset.id)">' + escHtml(p.name) + '</button>';
+  }).join("");
+  pHtml += '<button class="profile-pill" onclick="openModal(null)">' + escHtml(t.addMember) + '</button>';
+  pHtml += '<button class="btn" onclick="openModal(state.profiles.find(function(x){return x.id===state.activeId;}))">' + escHtml(t.editMember) + '</button>';
+  if (state.profiles.length > 1) {
+    pHtml += '<button class="btn" onclick="deleteActiveProfile()">' + escHtml(t.delMember) + '</button>';
+  }
+  document.getElementById("profilesRow").innerHTML = pHtml;
+
+  var ev = evaluateDay(active, state.dateStr, lang);
+  var distObj = DISTRICTS.find(function(d) { return d.id === active.district; }) || DISTRICTS[0];
+
+  var kMonth = KOLLAM_MONTHS[ev.kollam.monthIdx][lang];
+  var varaStr = ev.vara[lang];
+  document.getElementById("kollamBadge").textContent =
+    (lang === "ml" ? "കൊല്ലവർഷം " : "Kollavarsham ") + ev.kollam.year + " " + kMonth + " " + ev.kollam.day + " • " + varaStr;
+
+  var verdictClass = { great: "st-great", good: "st-good", okay: "st-okay", slow: "st-slow" }[ev.verdictKey];
+  var verdictLabel = { great: t.stGreat, good: t.stGood, okay: t.stOkay, slow: t.stSlow }[ev.verdictKey];
+
+  var summaryText = "";
+  if (lang === "ml") {
+    summaryText = ev.verdictKey === "great"
+      ? "താരാബലവും ചന്ദ്രഗോചാരവും നക്ഷത്രനാഥ സ്ഥിതിയും ഒരുപോലെ അനുകൂലമാണ്. പ്രധാന കാര്യങ്ങൾ ആത്മവിശ്വാസത്തോടെ മുന്നോട്ട് കൊണ്ടുപോകാം."
+      : ev.verdictKey === "good"
+      ? "മൊത്തത്തിൽ അനുകൂലമായ ദിനം. പതിവ് ഉത്തരവാദിത്തങ്ങളും പ്രധാന സംഭാഷണങ്ങളും സുഗമമായി നടക്കും."
+      : ev.verdictKey === "slow"
+      ? (ev.isChandrashtama ? "ഇന്ന് ചന്ദ്രാഷ്ടമം ഉള്ളതിനാൽ പ്രധാന തീരുമാനങ്ങളിലും യാത്രകളിലും സംസാരത്തിലും പ്രത്യേക കരുതൽ പുലർത്തുക."
+        : "ഗോചാരത്തിലും പഞ്ചാംഗത്തിലും ചെറിയ തടസ്സങ്ങൾ ഉള്ളതിനാൽ തിടുക്കം ഒഴിവാക്കി പതിവ് കാര്യങ്ങളിൽ ശ്രദ്ധിക്കുക.")
+      : "സമ്മിശ്ര ഫലങ്ങളുള്ള സാധാരണ ദിവസം. വലിയ മാറ്റങ്ങൾക്ക് മുതിരാതെ നിലവിലുള്ള ജോലികൾ പൂർത്തിയാക്കുക.";
+  } else {
+    summaryText = ev.verdictKey === "great"
+      ? "Strong alignment across Tara Balam, unobstructed Moon transit, and your Nakshatra-lord chain—ideal for key priorities."
+      : ev.verdictKey === "good"
+      ? "Supportive daily flow for steady progress, productive conversations, and routine commitments."
+      : ev.verdictKey === "slow"
+      ? (ev.isChandrashtama ? "Chandrashtama is active today—keep decisions conservative, double-check details, and avoid rushing."
+        : "Multiple caution signals across transit and Panchangam—pace yourself and stick to familiar tasks.")
+      : "Balanced, everyday rhythm—best suited for clearing pending tasks rather than forcing major leaps.";
+  }
+
+  var domains = buildDomainCards(ev, lang);
+  var domainHtml = domains.map(function(d) {
+    var pillCls = d.status === "strong" ? "st-great" : (d.status === "careful" ? "st-slow" : "st-okay");
+    var pillTxt = d.status === "strong" ? t.dStrong : (d.status === "careful" ? t.dCareful : t.dSteady);
+    return '<div class="domain-card">' +
+      '<div class="domain-head"><h3>' + escHtml(d.title) + '</h3><span class="d-pill ' + pillCls + '">' + escHtml(pillTxt) + '</span></div>' +
+      '<p>' + escHtml(d.text) + '</p>' +
+    '</div>';
+  }).join("");
+
+  var mahaName = PLANET_NAMES[ev.dasha.maha][lang];
+  var apaName  = PLANET_NAMES[ev.dasha.apaharam][lang];
+  var nakLordName = PLANET_NAMES[ev.nakLord][lang];
+
+  var mainHtml =
+    '<section class="verdict-card">' +
+      '<div class="verdict-top">' +
+        '<div class="person-meta">' +
+          '<h2>' + escHtml(active.name) + ' <span class="tag">' + ev.ageYears + ' ' + escHtml(t.ageUnit) + '</span></h2>' +
+          '<div class="meta-tags">' +
+            '<span class="tag">' + escHtml(t.birthStar) + ': ' + escHtml(ev.birthNak[lang]) + ' (' + ev.birthPada + ')</span>' +
+            '<span class="tag">' + escHtml(t.birthRashi) + ': ' + escHtml(ev.birthRashi[lang]) + '</span>' +
+            '<span class="tag">' + escHtml(t.lagna) + ': ' + escHtml(ev.birthLagna[lang]) + '</span>' +
+            '<span class="tag">' + escHtml(t.dasha) + ': ' + escHtml(mahaName) + ' – ' + escHtml(apaName) + '</span>' +
+            '<span class="tag">' + escHtml(distObj[lang]) + '</span>' +
+          '</div>' +
+        '</div>' +
+        '<div class="status-badge ' + verdictClass + '">' + escHtml(verdictLabel) + '</div>' +
+      '</div>' +
+      '<p class="verdict-summary">' + escHtml(summaryText) + '</p>' +
+    '</section>' +
+
+    '<section class="grid-3">' + domainHtml + '</section>' +
+
+    '<section class="windows-card">' +
+      '<h3>' + escHtml(t.winTitle) + '</h3>' +
+      '<div class="win-grid">' +
+        '<div class="win-box good-win"><div class="win-title">' + escHtml(t.abhijit) + '</div><div class="win-time">' + escHtml(ev.windows.abhijit) + '</div><div class="win-note">' + escHtml(t.abhijitNote) + '</div></div>' +
+        '<div class="win-box good-win"><div class="win-title">' + escHtml(t.powerHora) + '</div><div class="win-time">' + escHtml(ev.windows.powerHora) + '</div><div class="win-note">' + escHtml(t.powerHoraNote) + '</div></div>' +
+        '<div class="win-box bad-win"><div class="win-title">' + escHtml(t.rahu) + '</div><div class="win-time">' + escHtml(ev.windows.rahu) + '</div><div class="win-note">' + escHtml(t.rahuNote) + '</div></div>' +
+        '<div class="win-box good-win"><div class="win-title">' + escHtml(t.gulikan) + '</div><div class="win-time">' + escHtml(ev.windows.gulikan) + '</div><div class="win-note">' + escHtml(t.gulikanNote) + '</div></div>' +
+      '</div>' +
+    '</section>' +
+
+    '<details class="ledger">' +
+      '<summary>' + escHtml(t.ledgerTitle) + '</summary>' +
+      '<div class="ledger-grid">' +
+        '<div class="ledger-item"><strong>' + (lang === "ml" ? "ഇന്നത്തെ നക്ഷത്രവും താരാബലവും" : "Today Star & Tara Balam") + '</strong>' + escHtml(ev.midMoonNak[lang]) + ' • ' + escHtml(ev.taraMid[lang]) + '</div>' +
+        '<div class="ledger-item"><strong>' + (lang === "ml" ? "ചന്ദ്രരാശിയും വേധ പരിശോധനയും" : "Moon Rashi & Vedha Check") + '</strong>' + escHtml(ev.midMoonRashi[lang]) + ' • ' + (ev.isChandrashtama ? "Chandrashtama (8th)" : (ev.vedhaBlocked ? "Vedha Obstructed" : "Clear")) + '</div>' +
+        '<div class="ledger-item"><strong>' + (lang === "ml" ? "നക്ഷത്രനാഥ ശൃംഖല" : "Nakshatra-Lord Chain") + '</strong>' + escHtml(ev.midMoonNak[lang]) + ' → ' + escHtml(nakLordName) + ' (House ' + ev.nakLordHouseFromLagna + ' from Lagna)</div>' +
+        '<div class="ledger-item"><strong>' + (lang === "ml" ? "തിഥിയും നിത്യയോഗവും" : "Tithi & Nithya Yoga") + '</strong>' + escHtml(ev.midTithi) + ' • ' + escHtml(ev.midYoga) + '</div>' +
+        '<div class="ledger-item"><strong>' + (lang === "ml" ? "സൂര്യോദയവും അസ്തമയവും" : "Local Sunrise & Sunset") + '</strong>' + fmtTime(ev.sunTimes.sunrise) + ' / ' + fmtTime(ev.sunTimes.sunset) + ' IST</div>' +
+        '<div class="ledger-item"><strong>' + (lang === "ml" ? "3-തല സ്ഥിരീകരണ ഫലം" : "3-Layer Confirmation Gate") + '</strong>+' + ev.posVotes + ' Supportive / -' + ev.negVotes + ' Caution Layers</div>' +
+      '</div>' +
+    '</details>';
+
+  document.getElementById("mainContent").innerHTML = mainHtml;
+}
+
+document.addEventListener("DOMContentLoaded", render);
+</script>
+</body>
+</html>
