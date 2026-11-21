@@ -359,71 +359,60 @@
 
   .domain-card p { margin: 0; font-size: 0.92rem; color: #334657; }
 
-  /* Kerala Pariharam (Temple & Offering Remedy) Card */
-  .remedy-card {
-    background: linear-gradient(145deg, #fffdf9 0%, #fcf6ea 100%);
-    border-radius: var(--radius-lg);
-    border: 1px solid rgba(180, 120, 40, 0.22);
-    box-shadow: var(--shadow-soft);
-    padding: 20px 22px;
-    margin-bottom: 18px;
-  }
-
-  .remedy-card h3 {
-    margin: 0 0 6px;
-    font-size: 1.02rem;
-    font-weight: 700;
-    color: #6b4210;
-  }
-
-  .remedy-sub {
-    margin: 0 0 14px;
-    font-size: 0.84rem;
-    color: #7c5827;
-  }
-
-  .remedy-list {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-    gap: 12px;
-  }
-
-  .remedy-item {
-    background: #ffffff;
-    border: 1px solid rgba(180, 120, 40, 0.16);
+  /* Inline Kerala Pariharam (inside careful domain cards & slow week rows) */
+  .inline-remedy {
+    margin-top: 10px;
+    background: #fffdf8;
+    border: 1px solid rgba(184, 115, 36, 0.22);
     border-left: 4px solid #b87324;
     border-radius: var(--radius-sm);
-    padding: 13px 15px;
+    padding: 10px 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
   }
 
-  .remedy-deity {
-    font-weight: 700;
-    font-size: 0.94rem;
-    color: #2b1d0c;
+  .inline-remedy-head {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
   }
 
-  .remedy-day {
-    display: inline-block;
-    margin-top: 4px;
-    font-size: 0.76rem;
+  .inline-remedy-badge {
+    font-size: 0.70rem;
     font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
     color: #8a5214;
     background: #fdf1df;
-    padding: 2px 9px;
+    padding: 2px 8px;
     border-radius: 999px;
   }
 
-  .remedy-offering {
-    margin: 8px 0 4px;
-    font-size: 0.88rem;
-    color: #243748;
-    font-weight: 500;
+  .inline-remedy-deity {
+    font-weight: 700;
+    font-size: 0.90rem;
+    color: #2b1d0c;
   }
 
-  .remedy-reason {
-    margin: 0;
+  .inline-remedy-offering {
+    font-size: 0.86rem;
+    color: #243748;
+    font-weight: 500;
+    line-height: 1.35;
+  }
+
+  .inline-remedy-meta {
     font-size: 0.78rem;
     color: var(--muted);
+  }
+
+  .btn:disabled, button:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+    pointer-events: none;
+    box-shadow: none;
   }
 
   /* Daytime Windows Card */
@@ -562,7 +551,7 @@
   @media (max-width: 520px) {
     .wrap { padding: 14px 14px 48px; }
     .verdict-card { padding: 18px 16px; }
-    .windows-card, .remedy-card, .week-card { padding: 16px; }
+    .windows-card, .week-card { padding: 16px; }
   }
 </style>
 </head>
@@ -793,25 +782,46 @@ var UI = {
   }
 };
 
-function renderRemediesSection(remedies, lang, t) {
-  if (!remedies || remedies.length === 0) return "";
-  var itemsHtml = remedies.map(function(rem) {
-    var activeDaysTag = (rem.activeDays && rem.activeDays.length)
-      ? '<span class="remedy-day" style="margin-left:4px;">' + escHtml(rem.activeDays.join(", ")) + '</span>'
-      : "";
-    return '<div class="remedy-item">' +
-      '<div class="remedy-deity">' + escHtml(rem.deity) + '</div>' +
-      '<span class="remedy-day">' + escHtml(rem.dayOfWeek) + '</span>' + activeDaysTag +
-      '<p class="remedy-offering">' + escHtml(rem.offering) + '</p>' +
-      '<p class="remedy-reason">' + escHtml(rem.reason) + '</p>' +
-    '</div>';
-  }).join("");
+function renderInlineRemedyHtml(rem, lang) {
+  if (!rem) return "";
+  var badgeText = lang === "ml" ? "പരിഹാരം" : "Pariharam";
+  return '<div class="inline-remedy">' +
+    '<div class="inline-remedy-head">' +
+      '<span class="inline-remedy-badge">' + escHtml(badgeText) + '</span>' +
+      '<span class="inline-remedy-deity">' + escHtml(rem.deity) + '</span>' +
+    '</div>' +
+    '<div class="inline-remedy-offering">' + escHtml(rem.offering) + '</div>' +
+    '<div class="inline-remedy-meta">' + escHtml(rem.dayOfWeek) + ' • ' + escHtml(rem.reason) + '</div>' +
+  '</div>';
+}
 
-  return '<section class="remedy-card">' +
-    '<h3>' + escHtml(t.remedyTitle) + '</h3>' +
-    '<p class="remedy-sub">' + escHtml(t.remedySub) + '</p>' +
-    '<div class="remedy-list">' + itemsHtml + '</div>' +
-  '</section>';
+function getDomainRemedy(domainKey, remedies, usedMap) {
+  if (!remedies || !remedies.length) return null;
+  var prefs = {
+    mood: ["Moon", "Venus", "Mars", "Jupiter"],
+    work: ["Saturn", "Mercury", "Sun", "Mars", "Rahu", "Ketu"],
+    money: ["Jupiter", "Venus", "Mercury", "Saturn", "Moon"]
+  };
+  var pref = prefs[domainKey] || [];
+  for (var i = 0; i < pref.length; i++) {
+    var p = pref[i];
+    var m = remedies.find(function(r) { return r.planet === p && (!usedMap || !usedMap[r.planet]); });
+    if (m) {
+      if (usedMap) usedMap[m.planet] = true;
+      return m;
+    }
+  }
+  var anyUnused = remedies.find(function(r) { return !usedMap || !usedMap[r.planet]; });
+  if (anyUnused) {
+    if (usedMap) usedMap[anyUnused.planet] = true;
+    return anyUnused;
+  }
+  for (var j = 0; j < pref.length; j++) {
+    var p2 = pref[j];
+    var m2 = remedies.find(function(r) { return r.planet === p2; });
+    if (m2) return m2;
+  }
+  return remedies[0];
 }
 
 var jathakamCache = {};
@@ -833,18 +843,49 @@ function setLang(l) { state.lang = l; saveState(); render(); }
 function setViewMode(m) { state.viewMode = m; render(); }
 function selectProfile(id) { state.activeId = id; saveState(); render(); }
 
-function shiftDate(delta) {
-  var p = state.dateStr.split("-");
+function shiftDateStr(dateStr, days) {
+  var p = dateStr.split("-");
   var dt = new Date(Date.UTC(parseInt(p[0], 10), parseInt(p[1], 10) - 1, parseInt(p[2], 10)));
-  dt.setUTCDate(dt.getUTCDate() + delta);
-  state.dateStr = dt.toISOString().slice(0, 10);
+  dt.setUTCDate(dt.getUTCDate() + days);
+  return dt.toISOString().slice(0, 10);
+}
+
+function getDateBounds() {
+  var today = getTodayIST();
+  return {
+    today: today,
+    min: shiftDateStr(today, -7),
+    max: shiftDateStr(today, 30)
+  };
+}
+
+function shiftDate(delta) {
+  var bounds = getDateBounds();
+  var nextDate = shiftDateStr(state.dateStr, delta);
+  if (nextDate < bounds.min || nextDate > bounds.max) return;
+  state.dateStr = nextDate;
   render();
 }
 
-function setToday() { state.dateStr = getTodayIST(); render(); }
+function setToday() {
+  var bounds = getDateBounds();
+  state.dateStr = bounds.today;
+  render();
+}
+
 function onDateInput() {
-  var val = document.getElementById("targetDate").value;
-  if (val) { state.dateStr = val; render(); }
+  var input = document.getElementById("targetDate");
+  var val = input.value;
+  var bounds = getDateBounds();
+  if (!val) {
+    input.value = state.dateStr;
+    return;
+  }
+  if (val < bounds.min) val = bounds.min;
+  if (val > bounds.max) val = bounds.max;
+  state.dateStr = val;
+  input.value = val;
+  render();
 }
 
 function openModal(editProfile) {
@@ -937,10 +978,20 @@ function render() {
   document.getElementById("btnLangEn").className = lang === "en" ? "active" : "";
   document.getElementById("appTitle").textContent = t.title;
   document.getElementById("appSub").textContent = t.sub;
+  var bounds = getDateBounds();
+  if (state.dateStr < bounds.min) state.dateStr = bounds.min;
+  if (state.dateStr > bounds.max) state.dateStr = bounds.max;
+
+  var targetInput = document.getElementById("targetDate");
+  targetInput.min = bounds.min;
+  targetInput.max = bounds.max;
+  targetInput.value = state.dateStr;
+
   document.getElementById("btnPrevDay").textContent = t.prev;
   document.getElementById("btnToday").textContent = t.today;
   document.getElementById("btnNextDay").textContent = t.next;
-  document.getElementById("targetDate").value = state.dateStr;
+  document.getElementById("btnPrevDay").disabled = (state.dateStr <= bounds.min);
+  document.getElementById("btnNextDay").disabled = (state.dateStr >= bounds.max);
 
   if (!state.profiles || state.profiles.length === 0) {
     var p0 = state.dateStr.split("-");
@@ -989,49 +1040,47 @@ function render() {
     var daysHtml = wk.days.map(function(d) {
       var vCls = { great: "st-great", good: "st-good", okay: "st-okay", slow: "st-slow" }[d.verdictKey];
       var vLbl = { great: t.stGreat, good: t.stGood, okay: t.stOkay, slow: t.stSlow }[d.verdictKey];
+      var inlineRemedyHtml = "";
+      if (d.verdictKey === "slow" && d.remedies && d.remedies.length > 0) {
+        inlineRemedyHtml = renderInlineRemedyHtml(d.remedies[0], lang);
+      }
       return '<div class="week-day-row">' +
         '<div class="week-day-left">' +
           '<div class="week-day-title">' + escHtml(d.vara[lang] + " • " + d.dateStr) + '</div>' +
           '<div class="week-day-meta">' + escHtml(d.moonNak[lang] + " • " + d.moonRashi[lang] + " • " + d.tara[lang]) + '</div>' +
           '<p class="week-day-sum">' + escHtml(d.summary) + '</p>' +
+          inlineRemedyHtml +
         '</div>' +
         '<span class="status-badge ' + vCls + '">' + escHtml(vLbl) + '</span>' +
       '</div>';
     }).join("");
-
-    var dayMapByPlanet = {};
-    wk.days.forEach(function(d) {
-      (d.remedies || []).forEach(function(r) {
-        if (!dayMapByPlanet[r.planet]) dayMapByPlanet[r.planet] = [];
-        var lbl = d.vara[lang] + " (" + d.dateStr.slice(5) + ")";
-        if (dayMapByPlanet[r.planet].indexOf(lbl) === -1) dayMapByPlanet[r.planet].push(lbl);
-      });
-    });
-    var annotatedWeeklyRemedies = (wk.weeklyRemedies || []).map(function(r) {
-      var copy = {};
-      for (var k in r) copy[k] = r[k];
-      copy.activeDays = dayMapByPlanet[r.planet] || [];
-      return copy;
-    });
 
     bodyHtml =
       '<section class="week-card">' +
         '<h3>' + escHtml(t.weekTitle) + ' (' + escHtml(wk.startDate) + ' → ' + escHtml(wk.endDate) + ')</h3>' +
         '<p class="week-overview">' + escHtml(wk.weeklyOverview) + '</p>' +
         '<div class="week-days">' + daysHtml + '</div>' +
-      '</section>' +
-      renderRemediesSection(annotatedWeeklyRemedies, lang, t);
+      '</section>';
   } else {
     var verdictClass = { great: "st-great", good: "st-good", okay: "st-okay", slow: "st-slow" }[dist.verdictKey];
     var verdictLabel = { great: t.stGreat, good: t.stGood, okay: t.stOkay, slow: t.stSlow }[dist.verdictKey];
 
     var domainTitles = { work: t.workTitle, mood: t.moodTitle, money: t.moneyTitle };
+    var usedPlanets = {};
     var domainHtml = dist.narrative.domains.map(function(d) {
       var pillCls = d.status === "strong" ? "st-great" : (d.status === "careful" ? "st-slow" : "st-okay");
       var pillTxt = d.status === "strong" ? t.dStrong : (d.status === "careful" ? t.dCareful : t.dSteady);
+      var inlineRemedyHtml = "";
+      if (d.status === "careful") {
+        var rem = d.remedy || getDomainRemedy(d.key, dist.remedies, usedPlanets);
+        if (rem) {
+          inlineRemedyHtml = renderInlineRemedyHtml(rem, lang);
+        }
+      }
       return '<div class="domain-card">' +
         '<div class="domain-head"><h3>' + escHtml(domainTitles[d.key]) + '</h3><span class="d-pill ' + pillCls + '">' + escHtml(pillTxt) + '</span></div>' +
         '<p>' + escHtml(d.text) + '</p>' +
+        inlineRemedyHtml +
       '</div>';
     }).join("");
 
@@ -1054,8 +1103,6 @@ function render() {
       '</section>' +
 
       '<section class="grid-3">' + domainHtml + '</section>' +
-
-      renderRemediesSection(dist.remedies, lang, t) +
 
       '<section class="windows-card">' +
         '<h3>' + escHtml(t.winTitle) + '</h3>' +
