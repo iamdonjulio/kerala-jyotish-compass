@@ -171,10 +171,20 @@
 
   .modal input[type="date"],
   .modal input[type="text"],
-  .modal input[type="time"],
   .modal select {
     border-radius: var(--radius-sm);
     padding: 10px 12px;
+  }
+
+  .tob-select-row {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+
+  .tob-select-row select {
+    flex: 1;
+    min-width: 0;
   }
 
   .kollam-pill {
@@ -605,8 +615,12 @@
       <input type="date" id="inDob">
     </div>
     <div class="form-row">
-      <label id="lblTob">ജനനസമയം (Time of Birth - 24h)</label>
-      <input type="time" id="inTob" value="06:30">
+      <label id="lblTob">ജനനസമയം (AM / PM)</label>
+      <div class="tob-select-row">
+        <select id="inTobHour" aria-label="Hour"><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option><option value="11">11</option><option value="12">12</option></select>
+        <select id="inTobMin" aria-label="Minute"><option value="00">00</option><option value="01">01</option><option value="02">02</option><option value="03">03</option><option value="04">04</option><option value="05">05</option><option value="06">06</option><option value="07">07</option><option value="08">08</option><option value="09">09</option><option value="10">10</option><option value="11">11</option><option value="12">12</option><option value="13">13</option><option value="14">14</option><option value="15">15</option><option value="16">16</option><option value="17">17</option><option value="18">18</option><option value="19">19</option><option value="20">20</option><option value="21">21</option><option value="22">22</option><option value="23">23</option><option value="24">24</option><option value="25">25</option><option value="26">26</option><option value="27">27</option><option value="28">28</option><option value="29">29</option><option value="30">30</option><option value="31">31</option><option value="32">32</option><option value="33">33</option><option value="34">34</option><option value="35">35</option><option value="36">36</option><option value="37">37</option><option value="38">38</option><option value="39">39</option><option value="40">40</option><option value="41">41</option><option value="42">42</option><option value="43">43</option><option value="44">44</option><option value="45">45</option><option value="46">46</option><option value="47">47</option><option value="48">48</option><option value="49">49</option><option value="50">50</option><option value="51">51</option><option value="52">52</option><option value="53">53</option><option value="54">54</option><option value="55">55</option><option value="56">56</option><option value="57">57</option><option value="58">58</option><option value="59">59</option></select>
+        <select id="inTobAmPm" aria-label="AM or PM"><option value="AM">AM</option><option value="PM">PM</option></select>
+      </div>
     </div>
     <div class="form-row">
       <label id="lblPlace">ജനനസ്ഥലം (Kerala District)</label>
@@ -695,7 +709,7 @@ var UI = {
     modalEdit: "വിവരങ്ങൾ തിരുത്തുക",
     lblName: "പേര്",
     lblDob: "ജനനത്തീയതി",
-    lblTob: "ജനനസമയം (24 മണിക്കൂർ)",
+    lblTob: "ജനനസമയം (AM / PM)",
     lblPlace: "ജനനസ്ഥലം (ജില്ല)",
     cancel: "റദ്ദാക്കുക",
     save: "സേവ് ചെയ്യുക",
@@ -745,7 +759,7 @@ var UI = {
     modalEdit: "Edit Member Details",
     lblName: "Name",
     lblDob: "Date of Birth",
-    lblTob: "Time of Birth (24-hour)",
+    lblTob: "Time of Birth (12-hour)",
     lblPlace: "Birth Place (Kerala District)",
     cancel: "Cancel",
     save: "Save Profile",
@@ -888,6 +902,44 @@ function onDateInput() {
   render();
 }
 
+function to12HourParts(tob24) {
+  var parts = String(tob24 || "07:00").split(":");
+  var h24 = parseInt(parts[0], 10);
+  if (isNaN(h24)) h24 = 7;
+  var mVal = parseInt(parts[1], 10);
+  if (isNaN(mVal) || mVal < 0 || mVal > 59) mVal = 0;
+
+  var ampm = h24 >= 12 ? "PM" : "AM";
+  var hour12 = h24 % 12;
+  if (hour12 === 0) hour12 = 12;
+  var minStr = (mVal < 10 ? "0" : "") + mVal;
+
+  return {
+    hour12: hour12,
+    minStr: minStr,
+    ampm: ampm
+  };
+}
+
+function to24HourString(hour12, minStr, ampm) {
+  var h = parseInt(hour12, 10);
+  if (isNaN(h) || h < 1 || h > 12) h = 12;
+  var m = parseInt(minStr, 10);
+  if (isNaN(m) || m < 0 || m > 59) m = 0;
+
+  var period = String(ampm || "AM").trim().toUpperCase();
+  var h24;
+  if (period === "AM") {
+    h24 = (h === 12) ? 0 : h;
+  } else {
+    h24 = (h === 12) ? 12 : h + 12;
+  }
+
+  var hStr = (h24 < 10 ? "0" : "") + h24;
+  var mStr = (m < 10 ? "0" : "") + m;
+  return hStr + ":" + mStr;
+}
+
 function openModal(editProfile) {
   var E = window.KeralaJyotishEngine;
   var t = UI[state.lang];
@@ -901,14 +953,19 @@ function openModal(editProfile) {
     document.getElementById("editId").value = editProfile.id;
     document.getElementById("inName").value = editProfile.name;
     document.getElementById("inDob").value = editProfile.dob;
-    document.getElementById("inTob").value = editProfile.tob;
+    var tobParts = to12HourParts(editProfile.tob || "06:30");
+    document.getElementById("inTobHour").value = String(tobParts.hour12);
+    document.getElementById("inTobMin").value = tobParts.minStr;
+    document.getElementById("inTobAmPm").value = tobParts.ampm;
     sel.value = editProfile.district;
   } else {
     document.getElementById("modalTitle").textContent = t.modalAdd;
     document.getElementById("editId").value = "";
     document.getElementById("inName").value = "";
     document.getElementById("inDob").value = "1995-01-15";
-    document.getElementById("inTob").value = "07:00";
+    document.getElementById("inTobHour").value = "7";
+    document.getElementById("inTobMin").value = "00";
+    document.getElementById("inTobAmPm").value = "AM";
     sel.value = "tvm";
   }
   document.getElementById("lblName").textContent = t.lblName;
@@ -925,7 +982,10 @@ function closeModal() { document.getElementById("memberModal").classList.remove(
 function saveMember() {
   var name = document.getElementById("inName").value.trim();
   var dob = document.getElementById("inDob").value;
-  var tob = document.getElementById("inTob").value || "06:30";
+  var h12 = document.getElementById("inTobHour").value;
+  var minStr = document.getElementById("inTobMin").value;
+  var ampm = document.getElementById("inTobAmPm").value;
+  var tob = to24HourString(h12, minStr, ampm);
   var district = document.getElementById("inDistrict").value;
   if (!name || !dob) {
     var errEl = document.getElementById("errBanner");
@@ -1004,7 +1064,7 @@ function render() {
     document.getElementById("profilesRow").innerHTML = "";
     document.getElementById("mainContent").innerHTML =
       '<section class="empty-state">' +
-        '<div class="empty-icon">✦</div>' +
+        '<div class=\"empty-icon\">✦</div>' +
         '<h2>' + escHtml(t.emptyTitle) + '</h2>' +
         '<p>' + escHtml(t.emptyBody) + '</p>' +
         '<button class="btn btn-primary" onclick="openModal(null)">' + escHtml(t.emptyCta) + '</button>' +
