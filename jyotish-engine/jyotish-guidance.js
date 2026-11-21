@@ -38,6 +38,10 @@
   var evaluateClassicalDoshas = KJ.evaluateClassicalDoshas;
   var computePanchabhutaAtTime = KJ.computePanchabhutaAtTime;
   var computeYogiPoints = KJ.computeYogiPoints;
+
+  /* --------------------------------------------------------------------------
+     7. DAILY SNAPSHOT EVALUATOR (evaluateDay)
+     -------------------------------------------------------------------------- */
   function evaluateDay(profile, dateStr, lang, cachedJathakam) {
     var jathakam = cachedJathakam || computeFullJathakam(profile);
     var parts = dateStr.split("-");
@@ -265,7 +269,7 @@
     };
 
     result.remedies = getRemediesForState(result, jathakam, lang);
-    result.narrative = buildDynamicGuidance(result, jathakam, lang);
+    result.narrative = buildDynamicGuidance(result, jathakam, lang, result.remedies);
 
     // Distilled Calm UI Contract: exposes ONLY what a daily user needs
     result.distilled = {
@@ -292,6 +296,7 @@
 
     return result;
   }
+
   function getRemediesForState(ev, jathakam, lang) {
     var isMl = (lang === "ml");
     var remedies = [];
@@ -375,6 +380,16 @@
       );
     }
 
+    if (remedies.length === 0 && (ev.verdictKey === "slow" || ev.negVotes > 0 || ev.isChandrashtama || (ev.taraMid && ev.taraMid.val < 0))) {
+      var fallbackPlanet = (ev.dasha && ev.dasha.apaharam) ? ev.dasha.apaharam : "Saturn";
+      pushRemedy(
+        fallbackPlanet,
+        "ദോഷശാന്തിക്കും അനുകൂല ഫലങ്ങൾക്കുമായി",
+        "To ease day-level friction and invite favorable energy",
+        "supportive"
+      );
+    }
+
     return remedies;
   }
 
@@ -386,7 +401,7 @@
      house placements, active Dasha-Apaharam, and Life Stage) so consecutive days
      with different sky geometry never repeat canned boilerplate.
   -------------------------------------------------------------------------- */
-  function buildDynamicGuidance(ev, jathakam, lang) {
+  function buildDynamicGuidance(ev, jathakam, lang, remedies) {
     var isMl = (lang === "ml");
     var stage = ev.ageYears < 23 ? "student" : (ev.ageYears <= 45 ? "career" : (ev.ageYears <= 60 ? "midlife" : "senior"));
 
@@ -503,12 +518,38 @@
           : "stick to planned expenses and read all fine print before committing funds."));
     }
 
+    function selectDomainRemedy(domainKey, remList, used) {
+      if (!remList || !remList.length) return null;
+      var prefs = {
+        mood: ["Moon", "Venus", "Mars", "Jupiter"],
+        work: ["Saturn", "Mercury", "Sun", "Mars", "Rahu", "Ketu"],
+        money: ["Jupiter", "Venus", "Mercury", "Saturn", "Moon"]
+      };
+      var pref = prefs[domainKey] || [];
+      for (var i = 0; i < pref.length; i++) {
+        var found = remList.find(function(r) { return r.planet === pref[i] && (!used || !used[r.planet]); });
+        if (found) { if (used) used[found.planet] = true; return found; }
+      }
+      var anyUnused = remList.find(function(r) { return !used || !used[r.planet]; });
+      if (anyUnused) { if (used) used[anyUnused.planet] = true; return anyUnused; }
+      for (var j = 0; j < pref.length; j++) {
+        var pFound = remList.find(function(r) { return r.planet === pref[j]; });
+        if (pFound) return pFound;
+      }
+      return remList[0];
+    }
+
+    var usedMap = {};
+    var workRemedy = workStatus === "careful" ? selectDomainRemedy("work", remedies, usedMap) : null;
+    var moodRemedy = moodStatus === "careful" ? selectDomainRemedy("mood", remedies, usedMap) : null;
+    var moneyRemedy = moneyStatus === "careful" ? selectDomainRemedy("money", remedies, usedMap) : null;
+
     return {
       summary: summary,
       domains: [
-        { key: "work",  status: workStatus,  text: workText },
-        { key: "mood",  status: moodStatus,  text: moodText },
-        { key: "money", status: moneyStatus, text: moneyText }
+        { key: "work",  status: workStatus,  text: workText,  remedy: workRemedy },
+        { key: "mood",  status: moodStatus,  text: moodText,  remedy: moodRemedy },
+        { key: "money", status: moneyStatus, text: moneyText, remedy: moneyRemedy }
       ]
     };
   }
