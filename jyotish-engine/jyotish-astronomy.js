@@ -174,13 +174,13 @@
   }
 
   function getSunTimesIST(year, month, day, lat, lon) {
-    var jd0 = toJulianDay(year, month, day, 0);
-    var n = jd0 - 2451545.0 + 0.0008;
-    var jStar = n - lon / 360.0;
-    var M = norm360(357.5291 + 0.98560028 * jStar);
+    var jdNoon = toJulianDay(year, month, day, 12);
+    var n = Math.round(jdNoon - 2451545.0 + 0.0008 - lon / 360.0);
+    var jStar = 2451545.0 + 0.0008 + n - lon / 360.0;
+    var M = norm360(357.5291 + 0.98560028 * (jStar - 2451545.0));
     var C = 1.9148 * Math.sin(M * DEG) + 0.0200 * Math.sin(2 * M * DEG);
     var lam = norm360(M + C + 180 + 102.9372);
-    var jTransit = 2451545.0 + jStar + 0.0053 * Math.sin(M * DEG) - 0.0069 * Math.sin(2 * lam * DEG);
+    var jTransit = jStar + 0.0053 * Math.sin(M * DEG) - 0.0069 * Math.sin(2 * lam * DEG);
     var sinDec = Math.sin(lam * DEG) * Math.sin(23.44 * DEG);
     var cosDec = Math.cos(Math.asin(sinDec));
     var cosOmega = (Math.sin(-0.83 * DEG) - Math.sin(lat * DEG) * sinDec) / (Math.cos(lat * DEG) * cosDec);
@@ -190,8 +190,9 @@
     var jSet  = jTransit + omega / 360.0;
 
     function jdToIST(j) {
-      var frac = (j + 0.5) - Math.floor(j + 0.5);
-      return (frac * 24.0 + 5.5) % 24.0;
+      var istMs = (j - 2440587.5) * 86400000 + (5.5 * 3600000);
+      var dt = new Date(istMs);
+      return dt.getUTCHours() + dt.getUTCMinutes() / 60.0 + dt.getUTCSeconds() / 3600.0;
     }
     return { sunrise: jdToIST(jRise), sunset: jdToIST(jSet) };
   }
